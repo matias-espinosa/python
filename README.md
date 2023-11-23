@@ -49,7 +49,8 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
     - Al menos 1 mayuscula.
     - Al menos 1 minuscula.
     - Al menso 1 numero.
-    - Que se guarde hasheada (posbiles librerias bcrypt or passlib)
+    - Usar regex en lo posible para validar lo anterior.
+    - Que se guarde hasheada (posbiles librerias bcrypt or passlib).
     - Manejo de errores para lo requerido anteriormente.
 
 **Actualizar User Password**
