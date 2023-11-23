@@ -1,26 +1,35 @@
 # Swim Tracker
-Aplicacion pensada para que los entrenadores lleven registro del tiempo de cada estilo en diferentes distancias.
+Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus alumnos para cada estilo, en diferentes distancias.
 <br> <br> <br>
 **Que nos ofrece?**
-- Un menu para elegir entre Entrenadores (que van a tener varios alumnos) o Admin (que da de alta a los entrenadores)
+- Un menu para elegir entre Entrenadores (que van a tener varios alumnos) o Entrenador
+
+(que da de alta a los entrenadores)
 - Alta de Swimming Tracker user (Usuario y Password) para dar de alta diferentes tiempos de cada alumno.
 - Registro del tiempo (MM:SS) por alumno (Nombre y Apellido) para los 4 estilos (crol, espalda, pecho, mariposa).
 - Modificacion del tiempo previamente registrado.
 - Consulta de los tiempos de cada alumno.
 - Borrar alumno (junto con todos los tiempos).
 
-## Menu  
+## Funciones de Menu  
 
-- Login para Entrenadores
-     - User Name
-     - Password
-- Login para Admin
-    - User Name
-    - Passowrd
-        - Crear Usuario
-        - Resetear Password de Usuario
-        - Listar Usuarios
-        - Eliminar Usuario
+**Menu Principal**
+- Como se desea identificar?:
+     - Login para Entrenadores
+          - User Name
+          - Password
+     - Login para Admin
+         - User Name
+         - Passowrd
+      
+**Menu Admin**
+- Crear Usuario
+- Resetear Password de Usuario
+- Listar Usuarios
+- Eliminar Usuario
+  
+**Menu Entrenadores**
+
 
 ## Funciones para el Admin
 
@@ -52,3 +61,24 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de cada 
 - Listar todos los users.
 - Seleccionar un user para ser eliminado (usando un ID).
 - Mostrar mensaje que describa eliminacion de user exitosa
+
+## Funciones para el Entrenador
+
+**Alta de alumno**
+
+- Crear Alumno:
+     - Nombre de Pila:
+         - No puede contener espacios.
+         - Se guarda en mayusculas.
+         - No puede contener caracteres epeciales.
+         - No puede contener numeros.
+     - Apellido:
+         - No puede contener espacios.
+         - Se guarda en mayusculas.
+         - No puede contener caracteres epeciales.
+         - No puede contener numeros.
+     - Fecha de cumpleaños:
+         - Formato DD/MM/AAAA
+     - Edad:
+         - Calculada con la fecha de cumpleaños, no se pide cargar
+  
