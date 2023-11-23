@@ -27,10 +27,15 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
      - Crear Usuario.
      - Resetear Password de Usuario.
      - Listar Usuarios.
-     - Eliminar Usuario.
+     - Deshabilitar Usuario.
   
 **Menu Entrenadores**
-
+- Que desea hacer?:
+     - Crear Alumno.
+     - Cargar tiempo para Alumno.
+     - Listar tiempos por Alumno.
+     - Deshabilitar Alumno.
+     - Eliminar Alumno.
 
 ## Funciones para el Admin
 
@@ -54,7 +59,7 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
     - Manejo de errores para lo requerido anteriormente.
 
 **Actualizar User Password**
-- Listar todos los users.
+- Listar a todos los users.
 - Seleccionar un user para cambiarle el password (usando un ID).
 - La nueva Password debe tener las mismas caracteristicas que cuando se da de alta un user.
 - Mostrar mensaje que describa actualización de password exitosa.
