@@ -82,4 +82,8 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
          - Formato DD/MM/AAAA
      - Edad:
          - Calculada con la fecha de cumpleaños, no se pide cargar
-  
+           
+## Base de datos
+
+<img width="622" alt="image" src="https://github.com/matias-espinosa/swim_tracker/assets/19157242/298968db-ad16-4773-8e84-294ded49dd3c">
+
