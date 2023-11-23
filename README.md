@@ -2,14 +2,14 @@
 Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus alumnos para cada estilo, en diferentes distancias.
 <br> <br> <br>
 **Que nos ofrece?**
-- Un menu para elegir entre Entrenadores (que van a tener varios alumnos) o Entrenador
-
-(que da de alta a los entrenadores)
-- Alta de Swimming Tracker user (Usuario y Password) para dar de alta diferentes tiempos de cada alumno.
-- Registro del tiempo (MM:SS) por alumno (Nombre y Apellido) para los 4 estilos (crol, espalda, pecho, mariposa).
-- Modificacion del tiempo previamente registrado.
-- Consulta de los tiempos de cada alumno.
-- Borrar alumno (junto con todos los tiempos).
+- Menu para elegir perfil entre Entrenadores o Admin.
+- El Admin, va a poder dar de alta, modificar o deshabilitar perfiles de Entrenador.
+- El Entrenador, va a poder dar de alta alumnos:
+     - Registro del tiempo (MM:SS) por alumno (Nombre y Apellido) para los 4 estilos (crol, espalda, pecho, mariposa).
+     - Modificacion del tiempo previamente registrado.
+     - Consulta de los tiempos de cada alumno.
+     - Deshabilitar alumno.
+     - Borrar alumno (junto con todos los tiempos).
 
 ## Funciones de Menu  
 
@@ -23,11 +23,11 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
          - Passowrd
       
 **Menu Admin**
-- Que desea hacer?
-     - Crear Usuario
-     - Resetear Password de Usuario
-     - Listar Usuarios
-     - Eliminar Usuario
+- Que desea hacer?:
+     - Crear Usuario.
+     - Resetear Password de Usuario.
+     - Listar Usuarios.
+     - Eliminar Usuario.
   
 **Menu Entrenadores**
 
@@ -57,7 +57,7 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
 - Listar todos los users.
 - Seleccionar un user para cambiarle el password (usando un ID).
 - La nueva Password debe tener las mismas caracteristicas que cuando se da de alta un user.
-- Mostrar mensaje que describa actualización de password exitosa
+- Mostrar mensaje que describa actualización de password exitosa.
 
 **Deshabilitar User**
 - Listar todos los users.
@@ -80,9 +80,14 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
          - No puede contener caracteres epeciales.
          - No puede contener numeros.
      - Fecha de cumpleaños:
-         - Formato DD/MM/AAAA
+         - Formato DD/MM/AAAA.
      - Edad:
-         - Calculada con la fecha de cumpleaños, no se pide cargar
+         - Calculada con la fecha de cumpleaños, no se pide cargar.
+- Modificar Alumno:
+     - Agregar tiempos por estilo.
+     - Cambiar nombre.
+- Deshabilitar Alumno.
+- Eliminar Alumno. 
            
 ## Base de datos
 
