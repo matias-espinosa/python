@@ -15,25 +15,26 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
 
 **Menu Principal**
 - Como se desea identificar?:
-     - Login para Entrenadores
+     - Entrenador
           - User Name
           - Password
-     - Login para Admin
+     - Admin
          - User Name
          - Passowrd
       
 **Menu Admin**
-- Crear Usuario
-- Resetear Password de Usuario
-- Listar Usuarios
-- Eliminar Usuario
+- Que desea hacer?
+     - Crear Usuario
+     - Resetear Password de Usuario
+     - Listar Usuarios
+     - Eliminar Usuario
   
 **Menu Entrenadores**
 
 
 ## Funciones para el Admin
 
-**Alta de usuario**  
+**Alta de User**  
 
 - Crear un Username:
     - No puede contener espacios.
@@ -57,10 +58,10 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
 - La nueva Password debe tener las mismas caracteristicas que cuando se da de alta un user.
 - Mostrar mensaje que describa actualización de password exitosa
 
-**Baja de usuario**
+**Deshabilitar User**
 - Listar todos los users.
-- Seleccionar un user para ser eliminado (usando un ID).
-- Mostrar mensaje que describa eliminacion de user exitosa
+- Seleccionar un user para ser deshabilitado (usando un ID).
+- Mostrar mensaje que describa la desabilitacion exitosa del user.
 
 ## Funciones para el Entrenador
 
