@@ -34,6 +34,7 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
      - Crear Alumno.
      - Cargar tiempo para Alumno.
      - Listar tiempos por Alumno.
+     - Modificar Alumno.
      - Deshabilitar Alumno.
      - Eliminar Alumno.
 
