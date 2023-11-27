@@ -59,27 +59,6 @@ def menu_admin():
 # MODELO
 #############################################################
 
-'''
-def get_rol():
-    user=input("Ingrese el user: ")
-    password=input("Ingrese el password: ")
-    for i in users:
-        if i[0]==user and i[1]==password:
-            return i[2]
-
-def login():
-    rol=get_rol()
-
-    while rol!="entrenador" or rol!="admin":
-        if rol=="entrenador":
-            menu_entrenador()
-        elif rol=="admin":
-            menu_admin()
-        else:
-            print("El user o la contraseña no son correctos, ingreselos nuevamente.")
-            rol=get_rol()
-'''
-
 def login():
     rol=None
     user=input("Ingrese el user: ")
