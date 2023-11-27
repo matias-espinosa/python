@@ -1,5 +1,5 @@
 # Swim Tracker
-Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus alumnos para cada estilo, en diferentes distancias.
+Aplicacion pensada para que los entrenadores y alumnos lleven registro de los tiempos para cada estilo en diferentes distancias y permitiendo comparar 2 o mas entradas.
 <br> <br> <br>
 **Que nos ofrece?**
 - Menu para elegir perfil entre Entrenadores o Admin.
@@ -34,6 +34,8 @@ Aplicacion pensada para que los entrenadores lleven registro del tiempo de sus a
      - Crear Alumno.
      - Cargar tiempo para Alumno.
      - Listar tiempos por Alumno.
+     - Listar mejores tiempos por distancia y estilo.
+     - Busqueda por nombre de alumno.
      - Modificar Alumno.
      - Deshabilitar Alumno.
      - Eliminar Alumno.
