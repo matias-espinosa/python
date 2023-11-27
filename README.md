@@ -2,7 +2,7 @@
 Aplicacion pensada para que los entrenadores y alumnos lleven registro de los tiempos para cada estilo en diferentes distancias y permitiendo comparar 2 o mas entradas.
 <br> <br> <br>
 **Que nos ofrece?**
-- Menu para elegir perfil entre Entrenadores o Admin.
+- Login para definir que perfil mostrar: Entrenadores o Admin.
 - El Admin, va a poder dar de alta, modificar o deshabilitar perfiles de Entrenador.
 - El Entrenador, va a poder dar de alta alumnos:
      - Registro del tiempo (MM:SS) por alumno (Nombre y Apellido) para los 4 estilos (crol, espalda, pecho, mariposa).
