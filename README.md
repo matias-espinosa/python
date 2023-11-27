@@ -13,14 +13,12 @@ Aplicacion pensada para que los entrenadores y alumnos lleven registro de los ti
 
 ## Funciones de Menu  
 
-**Menu Principal**
-- Como se desea identificar?:
-     - Entrenador
-          - User Name
-          - Password
-     - Admin
-         - User Name
-         - Passowrd
+**Login**
+- Pedir User y Password:
+     - User
+     - Password
+- Dependiendo del rol de las credenciales usadas, el usuario va a ver el Menu Admin, o el Menu Entrenador.
+
       
 **Menu Admin**
 - Que desea hacer?:
