@@ -21,20 +21,20 @@ def menu_entrenador():
     print("    ó cualquier otra tecla para volver al menu anterior")
     eleccion = input("\n Que desea hacer: ")
     if eleccion=="a":
-            print("Funcion para Crear alumno")
+        print("Funcion para Crear alumno")
     elif eleccion=="b":
-            print("Funcion para Cargar tiempo para Alumno.")
+        print("Funcion para Cargar tiempo para Alumno.")
     elif eleccion=="d":
-            print("Funcion para Listar tiempos por Alumno.")
+        print("Funcion para Listar tiempos por Alumno.")
     elif eleccion=="d":
-            print("Funcion para Modificar Alumno.")
+        print("Funcion para Modificar Alumno.")
     elif eleccion=="e":
         print("Funcion para Deshabilitar Alumno.")
     elif eleccion=="f":
         print("Funcion para Eliminar Alumno.")
     else:
-       print("Usted a sido deslogueado")
-       login()
+        print("Usted a sido deslogueado")
+        login()
 
 def menu_admin():
     print("    (a) Crear Usuario.")
