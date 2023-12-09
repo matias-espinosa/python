@@ -30,7 +30,6 @@ try:
 except:
     print("Hay un error")
 
-
 def alta(dni, nombre, tiempo_50_mts, tree):
     dni_str = str(dni)
     regex_dni="^\d{1,2}\.?\d{3}\.?\d{3}$"  #regex para el campo cadena
@@ -109,7 +108,6 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
     print(item)
     mi_id = item['text']
     print(mi_id)
-    #alumno=int(item['text'])-1
 
     con=conexion()
     cursor=con.cursor()
@@ -122,6 +120,10 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
     a_val.set("")
     b_val.set("")
     c_val.set("")
+
+def on_vertical_scroll(*args):
+    tree.yview(*args)
+
 # ##############################################
 # VISTA
 # ##############################################
@@ -143,7 +145,7 @@ tiempo_50=Label(root, text="Tiempo en 50 metros crol")
 tiempo_50.grid(row=4, column=0, sticky=W)
 
 # Defino variables para tomar valores de campos de entrada
-a_val, b_val, c_val = IntVar(), StringVar(), StringVar()
+a_val, b_val, c_val = IntVar(), StringVar(), DoubleVar()
 w_ancho = 30
 
 entrada1 = Entry(root, textvariable = a_val, width = w_ancho)
@@ -157,24 +159,37 @@ entrada3.grid(row = 4, column = 1)
 # TREEVIEW
 # --------------------------------------------------
 
+
 tree = ttk.Treeview(root)
+root.geometry("460x500")
+
 tree["columns"]=("col1", "col2", "col3")
 tree.column("#0", width=40, minwidth=50, anchor=W)
-tree.column("col1", width=155, minwidth=80)
-tree.column("col2", width=155, minwidth=80)
-tree.column("col3", width=155, minwidth=80)
+tree.column("col1", width=125, minwidth=80)
+tree.column("col2", width=125, minwidth=80)
+tree.column("col3", width=125, minwidth=80)
 tree.heading("#0", text="ID")
 tree.heading("col1", text="DNI")
 tree.heading("col2", text="Nombre y Apellido")
-tree.heading("col3", text="Tiempo en 50 metros crol")
+tree.heading("col3", text="Tiempo 50 metros")
+
+scrollbar = ttk.Scrollbar(root, orient='vertical', command=tree.yview)
+scrollbar.grid(row=10, column=3, sticky='ns')
+tree.configure(yscrollcommand=scrollbar.set)
+scrollbar.config(command=on_vertical_scroll)
+root.columnconfigure(0, weight=1)
+root.rowconfigure(0, weight=1)
+
 tree.grid(row=10, column=0, columnspan=4)
 
 button_width = 15
+button_frame = Frame(root)
+button_frame.grid(row=0, column=0)
 
 boton_alta=Button(root, text="Alta", width=button_width, command=lambda:alta(a_val.get(), b_val.get(), c_val.get(), tree))
 boton_alta.grid(row=6, column=1)
 
-boton_consulta=Button(root,   text="Consultar", width=button_width, command=lambda:consultar(tree))
+boton_consulta=Button(root, text="Consultar", width=button_width, command=lambda:consultar(tree))
 boton_consulta.grid(row=8, column=0)
 
 boton_borrar=Button(root, text="Borrar", width=button_width, command=lambda:borrar(tree))
@@ -190,6 +205,9 @@ root.rowconfigure(1, weight=3, minsize=10)
 root.rowconfigure(5, weight=3, minsize=10)
 root.rowconfigure(7, weight=3, minsize=50)
 root.rowconfigure(9, weight=3, minsize=15)
+root.rowconfigure(11, weight=3, minsize=15)
+
+
 
 # root.rowconfigure(5, weight=3, minsize=10)
 # root.rowconfigure(7, weight=3, minsize=10)
