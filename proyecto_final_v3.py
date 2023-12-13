@@ -32,40 +32,41 @@ try:
     conexion()
     crear_tabla()
 except:
-    print("Esto salva el error al tratar de crear la base cuando ya existe.")
+    print("Excepcion: Error al tratar de crear la Base de Datos y/o Tabla cuando ya existen.")
 
 #----------    FIN BASE DE DATOS   -----------
 
 def alta(dni, nombre, tiempo_50_mts, tree):
     dni_str = str(dni)
+    tiempo_str = tiempo_50_mts
+    regex_tiempo="([0-9]{2}):([0-5][0-9])$"
     regex_dni="^\d{1,2}\.?\d{3}\.?\d{3}$"
     if(re.match(regex_dni, dni_str)):
-        print(dni, nombre, tiempo_50_mts)
-        con=conexion()
-        cursor=con.cursor()
-        data=(dni, nombre, tiempo_50_mts)
-        sql="INSERT INTO alumnos(dni, nombre, tiempo_50_mts) VALUES(?, ?, ?)"
-        cursor.execute(sql, data)
-        con.commit()
-        actualizar_treeview(tree)
-        messagebox.showinfo("Alta exitosa!", f'El alumno {nombre} fue dado de alta!')
-        a_val.set("")
-        b_val.set("")
-        c_val.set("")
+        if(re.match(regex_tiempo, tiempo_str)):
+            print(dni, nombre, tiempo_50_mts)
+            con=conexion()
+            cursor=con.cursor()
+            data=(dni, nombre, tiempo_50_mts)
+            sql="INSERT INTO alumnos(dni, nombre, tiempo_50_mts) VALUES(?, ?, ?)"
+            cursor.execute(sql, data)
+            con.commit()
+            actualizar_treeview(tree)
+            messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
+            a_val.set("")
+            b_val.set("")
+            c_val.set("")
+        else:
+            messagebox.showinfo("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
     else:
-        messagebox.showerror("Error", "Ingrese un DNI valido.")
+        messagebox.showerror("Error DNI", "Ingrese un DNI valido.")
 
 
 def borrar(tree):
     valor = tree.selection()
-    print(valor)   #('I005',)
     item = tree.item(valor)
-    print(item)    #{'text': 5, 'image': '', 'values': ['daSDasd', '13.0', '2.0'], 'open': 0, 'tags': ''}
-    print(item['text'])
     mi_id = item['text']
     con=conexion()
     cursor=con.cursor()
-    #mi_id = int(mi_id)
     data = (mi_id,)
     sql = "DELETE FROM alumnos WHERE id = ?;"
     cursor.execute(sql, data)
@@ -87,11 +88,8 @@ def consultar(tree):
 
 def modificar(dni, nombre, tiempo_50_mts, tree):
     valor = tree.selection()
-    print(valor)
     item = tree.item(valor)
-    print(item)
     mi_id = item['text']
-    print(mi_id)
     con=conexion()
     cursor=con.cursor()
     data=(dni, nombre, tiempo_50_mts,mi_id)
@@ -108,7 +106,7 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
 def mejor_tiempo(tree):
     con=conexion()
     cursor=con.cursor()
-    sql="SELECT nombre, tiempo_50_mts FROM alumnos ORDER BY tiempo_50_mts ASC LIMIT 1"
+    sql="SELECT nombre, MIN(tiempo_50_mts) FROM alumnos"
     mejor_tiempo = cursor.execute(sql)
     resultado = mejor_tiempo.fetchall()
     print (resultado)
@@ -143,6 +141,10 @@ def actualizar_treeview(mitreview):
 def on_vertical_scroll(*args):
     tree.yview(*args)
 
+def cerrar_programa(tree):
+    result = messagebox.askokcancel("OK o Cancelar", "Esta seguro que quiere cerrar el programa?")
+    if result == True:
+        root.quit()
 
 # ##############################################
 # VISTA
@@ -151,22 +153,21 @@ def on_vertical_scroll(*args):
 root = Tk()
 root.title("Swim Tracker")
 root.configure(bg="#B3B7BF")
+fuente_titulo = ("Arial", 16, "bold")
+fuente_campos = ("Arial", 10)
 
-titulo = Label(root, anchor="w",pady=10, padx=10, text="Swim Tracker", bg="black", fg="white", height=3, width=60)
+titulo = Label(root, anchor="w",pady=10, padx=10, font=fuente_titulo, text="Swim Tracker", bg="black", fg="white", height=3, width=60)
 titulo.grid(row=0, column=0, columnspan=4, padx=1, pady=1, sticky=W+E)
 
-separador = Label(root, bg="black", fg="white", height=1, width=60)
-separador.grid(row=7, column=0, columnspan=4, padx=1, pady=1, sticky=W+E)
-
-dni = Label(root, bg="#B3B7BF",text="DNI")
-dni.grid(row=2, column=0, sticky=W)
-nombre_apellido=Label(root, bg="#B3B7BF", text="Nombre y Apellido")
-nombre_apellido.grid(row=3, column=0, sticky=W)
-tiempo_50=Label(root, bg="#B3B7BF", text="Tiempo en 50 metros crol")
-tiempo_50.grid(row=4, column=0, sticky=W)
+dni = Label(root, font=fuente_campos, bg="#B3B7BF",text="DNI")
+dni.grid(row=2, column=0, padx=10, sticky=W)
+nombre_apellido=Label(root, font=fuente_campos, bg="#B3B7BF", text="Nombre y Apellido")
+nombre_apellido.grid(row=3, padx=10, column=0, sticky=W)
+tiempo_50=Label(root, font=fuente_campos,  bg="#B3B7BF", text="50 mts Crol (MM:SS)")
+tiempo_50.grid(row=4, padx=10, column=0, sticky=W)
 
 # Defino variables para tomar valores de campos de entrada
-a_val, b_val, c_val = IntVar(), StringVar(), DoubleVar()
+a_val, b_val, c_val = IntVar(), StringVar(), StringVar()
 w_ancho = 30
 
 entrada1 = Entry(root, textvariable = a_val, width = w_ancho)
@@ -182,8 +183,8 @@ entrada3.grid(row = 4, column = 1)
 # --------------------------------------------------
 
 
-tree = ttk.Treeview(root)
-root.geometry("460x550")
+tree = ttk.Treeview(root, style="Custom.Treeview")
+root.geometry("460x500")
 
 tree["columns"]=("col1", "col2", "col3")
 tree.column("#0", width=40, minwidth=50, anchor=W)
@@ -193,43 +194,43 @@ tree.column("col3", width=125, minwidth=80)
 tree.heading("#0",text="ID")
 tree.heading("col1", text="DNI")
 tree.heading("col2", text="Nombre y Apellido")
-tree.heading("col3", text="Tiempo 50 metros")
+tree.heading("col3", text="50mts Crol")
 
 scrollbar = ttk.Scrollbar(root, orient='vertical', command=tree.yview)
-scrollbar.grid(row=10, column=3, sticky='ns')
+scrollbar.grid(row=8, column=3, sticky='ns')
 tree.configure(yscrollcommand=scrollbar.set)
 scrollbar.config(command=on_vertical_scroll)
 
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
-tree.grid(row=10, column=0, columnspan=4)
+tree.grid(row=8, column=0, columnspan=4)
 
 button_width = 15
-button_frame = Frame(root)
-button_frame.grid(row=0, column=0)
+button_frame = Frame(root, bg="#B3B7BF")
+button_frame.grid(row=10, column=0, columnspan=4)
 
-boton_alta=Button(root,  text="Alta", width=button_width, command=lambda:alta(a_val.get(), b_val.get(), c_val.get(), tree))
+boton_alta=Button(root, text="Alta", width=button_width, command=lambda:alta(a_val.get(), b_val.get(), c_val.get(), tree))
 boton_alta.grid(row=6, column=0)
 
 boton_mejor_tiempo=Button(root,  text="Mejor tiempo", width=button_width, command=lambda:mejor_tiempo(tree))
 boton_mejor_tiempo.grid(row=6, column=2)
 
-boton_consulta=Button(root, text="Consultar", width=button_width, command=lambda:consultar(tree))
-boton_consulta.grid(row=8, column=0)
+boton_consulta=Button(button_frame, text="Consultar", width=button_width, command=lambda:consultar(tree))
+boton_consulta.grid(row=10, column=0, padx=5, pady=5)
 
-boton_borrar=Button(root, text="Borrar", width=button_width, command=lambda:borrar(tree))
-boton_borrar.grid(row=8, column=1)
+boton_borrar=Button(button_frame, text="Borrar", width=button_width, command=lambda:borrar(tree))
+boton_borrar.grid(row=10, column=1, padx=5, pady=5)
 
-boton_modificar=Button(root, text="Modificar", width=button_width, command=lambda:modificar(a_val.get(), b_val.get(), c_val.get(), tree))
-boton_modificar.grid(row=8, column=2)
+boton_modificar=Button(button_frame, text="Modificar", width=button_width, command=lambda:modificar(a_val.get(), b_val.get(), c_val.get(), tree))
+boton_modificar.grid(row=10, column=2, padx=5, pady=5)
 
-boton_cerrar=Button(root, text="Cerrar Aplicacion", width=button_width, command=root.quit)
+boton_cerrar=Button(root, text="Cerrar Aplicacion", width=button_width, command=lambda:cerrar_programa(tree))
 boton_cerrar.grid(row=0, column=2)
 
 root.rowconfigure(1, weight=3, minsize=10)
 root.rowconfigure(5, weight=3, minsize=30)
-root.rowconfigure(7, weight=3, minsize=70)
+root.rowconfigure(7, weight=3, minsize=30)
 root.rowconfigure(9, weight=3, minsize=15)
 root.rowconfigure(11, weight=3, minsize=15)
 
