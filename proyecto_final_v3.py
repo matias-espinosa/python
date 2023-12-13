@@ -4,11 +4,13 @@ import sqlite3
 from tkinter import ttk
 import re
 
+
 # ##############################################
 # MODELO
 # ##############################################
 
-#-------------    BASE DE DATOS   --------------
+
+#----------    INICIO BASE DE DATOS   -----------
 
 def conexion():
     con = sqlite3.connect("alumnos_natacion.db")
@@ -30,13 +32,13 @@ try:
     conexion()
     crear_tabla()
 except:
-    print("Hay un error")
+    print("Esto salva el error al tratar de crear la base cuando ya existe.")
 
-#-------------    BASE DE DATOS   --------------
+#----------    FIN BASE DE DATOS   -----------
 
 def alta(dni, nombre, tiempo_50_mts, tree):
     dni_str = str(dni)
-    regex_dni="^\d{1,2}\.?\d{3}\.?\d{3}$"  #regex para el campo cadena
+    regex_dni="^\d{1,2}\.?\d{3}\.?\d{3}$"
     if(re.match(regex_dni, dni_str)):
         print(dni, nombre, tiempo_50_mts)
         con=conexion()
@@ -45,25 +47,14 @@ def alta(dni, nombre, tiempo_50_mts, tree):
         sql="INSERT INTO alumnos(dni, nombre, tiempo_50_mts) VALUES(?, ?, ?)"
         cursor.execute(sql, data)
         con.commit()
-        print("Estoy en alta todo ok")
         actualizar_treeview(tree)
+        messagebox.showinfo("Alta exitosa!", f'El alumno {nombre} fue dado de alta!')
         a_val.set("")
         b_val.set("")
         c_val.set("")
     else:
         messagebox.showerror("Error", "Ingrese un DNI valido.")
 
-def consultar(tree):
-    actualizar_treeview(tree)
-    sql = "SELECT * FROM alumnos ORDER BY id ASC"
-    con=conexion()
-    cursor=con.cursor()
-    datos=cursor.execute(sql)
-
-    resultado = datos.fetchall()
-    print(resultado)
-    for fila in resultado:
-        print(fila)
 
 def borrar(tree):
     valor = tree.selection()
@@ -82,25 +73,16 @@ def borrar(tree):
     tree.delete(valor)
 
 
-def actualizar_treeview(mitreview):
-
-    records = mitreview.get_children()
-    print(records)
-    for element in records:
-        mitreview.delete(element)
-
+def consultar(tree):
+    actualizar_treeview(tree)
     sql = "SELECT * FROM alumnos ORDER BY id ASC"
     con=conexion()
     cursor=con.cursor()
     datos=cursor.execute(sql)
-
     resultado = datos.fetchall()
+    print(resultado)
     for fila in resultado:
         print(fila)
-        mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
-        a_val.set("")
-        b_val.set("")
-        c_val.set("")
 
 
 def modificar(dni, nombre, tiempo_50_mts, tree):
@@ -110,7 +92,6 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
     print(item)
     mi_id = item['text']
     print(mi_id)
-
     con=conexion()
     cursor=con.cursor()
     data=(dni, nombre, tiempo_50_mts,mi_id)
@@ -123,8 +104,6 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
     b_val.set("")
     c_val.set("")
 
-def on_vertical_scroll(*args):
-    tree.yview(*args)
 
 def mejor_tiempo(tree):
     con=conexion()
@@ -139,6 +118,31 @@ def mejor_tiempo(tree):
     print(f'{alumno} tiene el mejor tiempo: {tiempo}')
     con.commit()
     messagebox.showinfo("Mejor tiempo", f'{alumno} tiene el mejor tiempo: {tiempo}')
+
+
+def actualizar_treeview(mitreview):
+    records = mitreview.get_children()
+    print(records)
+    #print(type(records[0]))
+    #print(records[1])
+    for element in records:
+        mitreview.delete(element)
+    sql = "SELECT * FROM alumnos ORDER BY id ASC"
+    con=conexion()
+    cursor=con.cursor()
+    datos=cursor.execute(sql)
+    resultado = datos.fetchall()
+    for fila in resultado:
+        #print(fila)
+        mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
+        a_val.set("")
+        b_val.set("")
+        c_val.set("")
+
+
+def on_vertical_scroll(*args):
+    tree.yview(*args)
+
 
 # ##############################################
 # VISTA
@@ -171,6 +175,7 @@ entrada2 = Entry(root, textvariable = b_val, width = w_ancho)
 entrada2.grid(row = 3, column = 1)
 entrada3 = Entry(root, textvariable = c_val, width = w_ancho)
 entrada3.grid(row = 4, column = 1)
+
 
 # --------------------------------------------------
 # TREEVIEW
