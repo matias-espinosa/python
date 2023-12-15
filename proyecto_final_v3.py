@@ -23,7 +23,7 @@ def crear_tabla():
              (id INTEGER PRIMARY KEY AUTOINCREMENT,
              dni INTEGER NOT NULL,
              nombre TEXT NOT NULL,
-             tiempo_50_mts TEXT)
+             tiempo_50_mts TEXT NOT NULL)
     """
     cursor.execute(sql)
     con.commit()
@@ -65,13 +65,17 @@ def borrar(tree):
     valor = tree.selection()
     item = tree.item(valor)
     mi_id = item['text']
-    con=conexion()
-    cursor=con.cursor()
-    data = (mi_id,)
-    sql = "DELETE FROM alumnos WHERE id = ?;"
-    cursor.execute(sql, data)
-    con.commit()
-    tree.delete(valor)
+    data_alumno = item['values']
+    alumno=data_alumno[1]
+    respuesta = messagebox.askokcancel("Borrar", f"Esta seguro que desea borrar al alumno: {alumno}")
+    if respuesta == True:
+        con=conexion()
+        cursor=con.cursor()
+        data = (mi_id,)
+        sql = "DELETE FROM alumnos WHERE id = ?;"
+        cursor.execute(sql, data)
+        con.commit()
+        tree.delete(valor)
 
 
 def consultar(tree):
@@ -137,12 +141,11 @@ def actualizar_treeview(mitreview):
         b_val.set("")
         c_val.set("")
 
-
-def on_vertical_scroll(*args):
+def scroll_veritcal(*args):
     tree.yview(*args)
 
 def cerrar_programa(tree):
-    result = messagebox.askokcancel("OK o Cancelar", "Esta seguro que quiere cerrar el programa?")
+    result = messagebox.askokcancel("OK o Cancelar", "Esta seguro que desea cerrar el programa?")
     if result == True:
         root.quit()
 
@@ -160,22 +163,22 @@ titulo = Label(root, anchor="w",pady=10, padx=10, font=fuente_titulo, text="Swim
 titulo.grid(row=0, column=0, columnspan=4, padx=1, pady=1, sticky=W+E)
 
 dni = Label(root, font=fuente_campos, bg="#B3B7BF",text="DNI")
-dni.grid(row=2, column=0, padx=10, sticky=W)
+dni.grid(row=2, column=0, padx=25, sticky=W)
 nombre_apellido=Label(root, font=fuente_campos, bg="#B3B7BF", text="Nombre y Apellido")
-nombre_apellido.grid(row=3, padx=10, column=0, sticky=W)
+nombre_apellido.grid(row=3, padx=25, column=0, sticky=W)
 tiempo_50=Label(root, font=fuente_campos,  bg="#B3B7BF", text="50 mts Crol (MM:SS)")
-tiempo_50.grid(row=4, padx=10, column=0, sticky=W)
+tiempo_50.grid(row=4, padx=25, column=0, sticky=W)
 
 # Defino variables para tomar valores de campos de entrada
 a_val, b_val, c_val = IntVar(), StringVar(), StringVar()
-w_ancho = 30
+w_ancho = 29
 
 entrada1 = Entry(root, textvariable = a_val, width = w_ancho)
-entrada1.grid(row = 2, column = 1)
+entrada1.grid(row = 2, padx=26, column = 2, columnspan=2)
 entrada2 = Entry(root, textvariable = b_val, width = w_ancho)
-entrada2.grid(row = 3, column = 1)
+entrada2.grid(row = 3, padx=26, column = 2, columnspan=2)
 entrada3 = Entry(root, textvariable = c_val, width = w_ancho)
-entrada3.grid(row = 4, column = 1)
+entrada3.grid(row = 4, padx=26, column = 2, columnspan=2)
 
 
 # --------------------------------------------------
@@ -183,55 +186,58 @@ entrada3.grid(row = 4, column = 1)
 # --------------------------------------------------
 
 
-tree = ttk.Treeview(root, style="Custom.Treeview")
-root.geometry("460x500")
+tree = ttk.Treeview(root)
+root.geometry("420x500")
 
 tree["columns"]=("col1", "col2", "col3")
-tree.column("#0", width=40, minwidth=50, anchor=W)
-tree.column("col1", width=125, minwidth=80)
-tree.column("col2", width=125, minwidth=80)
-tree.column("col3", width=125, minwidth=80)
+tree.column("#0", width=50, minwidth=50, anchor=W)
+tree.column("col1", width=105, minwidth=80)
+tree.column("col2", width=110, minwidth=80)
+tree.column("col3", width=105, minwidth=80)
 tree.heading("#0",text="ID")
 tree.heading("col1", text="DNI")
 tree.heading("col2", text="Nombre y Apellido")
 tree.heading("col3", text="50mts Crol")
 
-scrollbar = ttk.Scrollbar(root, orient='vertical', command=tree.yview)
-scrollbar.grid(row=8, column=3, sticky='ns')
-tree.configure(yscrollcommand=scrollbar.set)
-scrollbar.config(command=on_vertical_scroll)
+tree.grid(row=8, padx=10, column=0, columnspan=4,sticky=W)
 
-root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
+root.columnconfigure(0, weight=1)
 
-tree.grid(row=8, column=0, columnspan=4)
+root.rowconfigure(1, weight=1, minsize=10)
+root.rowconfigure(5, weight=1, minsize=20)
+root.rowconfigure(7, weight=1, minsize=20)
+root.rowconfigure(9, weight=1, minsize=15)
+root.rowconfigure(11, weight=1, minsize=15)
+
+
+scrollbar = ttk.Scrollbar(root, orient='vertical', command=tree.yview)
+scrollbar.grid(row=8, column=3, padx=10,sticky='ens')
+tree.configure(yscrollcommand=scrollbar.set)
+scrollbar.config(command=scroll_veritcal)
 
 button_width = 15
-button_frame = Frame(root, bg="#B3B7BF")
-button_frame.grid(row=10, column=0, columnspan=4)
+button_frame_top = Frame(root, bg="#B3B7BF")
+button_frame_top.grid(row=6, column=0, columnspan=4)
+button_frame_bottom = Frame(root, bg="#B3B7BF")
+button_frame_bottom.grid(row=10, column=0, columnspan=4)
 
-boton_alta=Button(root, text="Alta", width=button_width, command=lambda:alta(a_val.get(), b_val.get(), c_val.get(), tree))
-boton_alta.grid(row=6, column=0)
+boton_alta=Button(button_frame_top, text="Agregar tiempo", width=button_width, command=lambda:alta(a_val.get(), b_val.get(), c_val.get(), tree))
+boton_alta.grid(row=6, column=0, padx=5, pady=5)
 
-boton_mejor_tiempo=Button(root,  text="Mejor tiempo", width=button_width, command=lambda:mejor_tiempo(tree))
-boton_mejor_tiempo.grid(row=6, column=2)
+boton_mejor_tiempo=Button(button_frame_top,  text="Mejor tiempo", width=button_width, command=lambda:mejor_tiempo(tree))
+boton_mejor_tiempo.grid(row=6, column=2, padx=5, pady=5)
 
-boton_consulta=Button(button_frame, text="Consultar", width=button_width, command=lambda:consultar(tree))
+boton_consulta=Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda:consultar(tree))
 boton_consulta.grid(row=10, column=0, padx=5, pady=5)
 
-boton_borrar=Button(button_frame, text="Borrar", width=button_width, command=lambda:borrar(tree))
+boton_borrar=Button(button_frame_bottom, text="Borrar tiempo", width=button_width, command=lambda:borrar(tree))
 boton_borrar.grid(row=10, column=1, padx=5, pady=5)
 
-boton_modificar=Button(button_frame, text="Modificar", width=button_width, command=lambda:modificar(a_val.get(), b_val.get(), c_val.get(), tree))
+boton_modificar=Button(button_frame_bottom, text="Modificar tiempo", width=button_width, command=lambda:modificar(a_val.get(), b_val.get(), c_val.get(), tree))
 boton_modificar.grid(row=10, column=2, padx=5, pady=5)
 
 boton_cerrar=Button(root, text="Cerrar Aplicacion", width=button_width, command=lambda:cerrar_programa(tree))
-boton_cerrar.grid(row=0, column=2)
-
-root.rowconfigure(1, weight=3, minsize=10)
-root.rowconfigure(5, weight=3, minsize=30)
-root.rowconfigure(7, weight=3, minsize=30)
-root.rowconfigure(9, weight=3, minsize=15)
-root.rowconfigure(11, weight=3, minsize=15)
+boton_cerrar.grid(row=0, column=3, sticky=E, padx=10)
 
 root.mainloop()
