@@ -78,7 +78,7 @@ def borrar(tree):
         tree.delete(valor)
         con.close()
 
-
+'''
 def consultar(tree):
     actualizar_treeview(tree)
     sql = "SELECT * FROM alumnos ORDER BY id ASC"
@@ -90,7 +90,7 @@ def consultar(tree):
     print(resultado)
     for fila in resultado:
         print(fila)
-
+'''
 
 def modificar(dni, nombre, tiempo_50_mts, tree):
     valor = tree.selection()
@@ -117,26 +117,22 @@ def mejor_tiempo(tree):
             FROM alumnos
             WHERE tiempo_50_mts = (SELECT MIN(tiempo_50_mts) FROM alumnos)"""
     mejor_tiempo = cursor.execute(sql)
-    resultado = mejor_tiempo.fetchall()
+    resultado = mejor_tiempo.fetchall() 
     print (resultado)
+    mejores_tiempos=""
     for tuplas in resultado:
         print(tuplas)
-        alumno = tuplas[0]
-        tiempo = tuplas[1]
-        print(alumno)
-        print(tiempo)
-    print(f'{alumno} tiene el mejor tiempo: {tiempo}')
+        mejores_tiempos+=f"{tuplas[0]}: {tuplas[1]}\n"
+    #print(f'{alumno} tiene el mejor tiempo: {tiempo}')
     con.commit()
     con.close()
     #messagebox.showinfo("Mejor tiempo", f'{alumno} tiene el mejor tiempo: {tiempo}')
-    messagebox.showinfo("Mejor tiempo", resultado)
+    messagebox.showinfo("Mejor/es tiempo/s", mejores_tiempos)
 
 
 def actualizar_treeview(mitreview):
     records = mitreview.get_children()
     print(records)
-    #print(type(records[0]))
-    #print(records[1])
     for element in records:
         mitreview.delete(element)
     sql = "SELECT * FROM alumnos ORDER BY id ASC"
@@ -257,14 +253,14 @@ button_width = 15
 button_frame_bottom = Frame(root, bg="#B3B7BF")
 button_frame_bottom.grid(row=10, column=0, columnspan=4)
 
-boton_alta=Button(text="Guardar tiempo", width=button_width, command=lambda:alta(a_val.get(), b_val.get(), c_val.get(), tree))
+boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:alta(a_val.get(), b_val.get(), c_val.get(), tree))
 boton_alta.grid(row=6, column=3, padx=5, pady=5)
 
 boton_mejor_tiempo=Button(text="Mejor tiempo", width=button_width, command=lambda:mejor_tiempo(tree))
-boton_mejor_tiempo.grid(row=6, column=2, padx=5, pady=5)
+boton_mejor_tiempo.grid(row=7, column=2, padx=5, pady=5)
 
-boton_consulta=Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda:consultar(tree))
-boton_consulta.grid(row=10, column=0, padx=5, pady=5)
+boton_consulta=Button( text="Listar tiempos", width=button_width, command=lambda:actualizar_treeview(tree)) #Consulta se usaba aca
+boton_consulta.grid(row=7, column=0, padx=5, pady=5)
 
 boton_borrar=Button(button_frame_bottom, text="Borrar tiempo", width=button_width, command=lambda:borrar(tree))
 boton_borrar.grid(row=10, column=1, padx=5, pady=5)
