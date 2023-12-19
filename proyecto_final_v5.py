@@ -55,16 +55,14 @@ def alta(dni, nombre, tiempo_50_mts, tree):
                 con.commit()
                 actualizar_treeview(tree)
                 messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
-                a_val.set("")
-                b_val.set("")
-                c_val.set("")
+                limpiar(tree)
                 con.close
             else:
-                messagebox.showinfo("DNI duplicado'", f'El DNI: {dni} ya se encuentra en la base de datos.\n\nModifique el tiempo o nombre del alumno existente.')
+                messagebox.showinfo("DNI duplicado", f'El DNI: {dni} ya se encuentra en la base de datos.\n\nModifique el tiempo o nombre del alumno existente.')
         else:
             messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
     else:
-        messagebox.showerror("Error DNI", "Ingrese un DNI valido.")
+        messagebox.showerror("Error DNI", "Ingrese un DNI valido.\nEjemplo: 30123456).")
 
 
 def limpiar(tree):
@@ -110,9 +108,7 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
             con.commit()
             con.close()
             actualizar_treeview(tree)
-            a_val.set("")
-            b_val.set("")
-            c_val.set("")
+            limpiar(tree)
     else:
         messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
 
@@ -131,9 +127,7 @@ def mejor_tiempo(mitreview):
     con.close()
     for fila in resultado:
         mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
-        a_val.set("")
-        b_val.set("")
-        c_val.set("")
+        limpiar(tree)
 
 
 def actualizar_treeview(mitreview):
@@ -184,19 +178,19 @@ def cerrar_programa(tree):
 
 root = Tk()
 root.title("Swim Tracker")
-root.configure(bg="#B3B7BF")
+root.configure(bg="#c5e1ff")
 
 fuente_titulo = ("Arial", 16, "bold")
 fuente_campos = ("Calibri", 11)
 
-titulo = Label(root,padx=10, anchor="w", font=fuente_titulo, text="Swim Tracker", bg="black", fg="white", height=2, width=60)
+titulo = Label(root,padx=10, anchor="w", font=fuente_titulo, text="Swim Tracker", bg="#001c3b", fg="white", height=2, width=60)
 titulo.grid(row=0, column=0, columnspan=4, sticky=W+E+N+S)
 
-dni = Label(root, font=fuente_campos, bg="#B3B7BF",text="DNI (solo números, sin puntos)")
+dni = Label(root, font=fuente_campos, bg="#c5e1ff",text="DNI (números, sin puntos)")
 dni.grid(row=2, column=0, padx=10, sticky=W)
-nombre_apellido=Label(root, font=fuente_campos, bg="#B3B7BF", text="Nombre y Apellido")
+nombre_apellido=Label(root, font=fuente_campos, bg="#c5e1ff", text="Nombre y Apellido")
 nombre_apellido.grid(row=3, padx=10, column=0, sticky=W)
-tiempo_50=Label(root, font=fuente_campos,  bg="#B3B7BF", text="50 mts Crol (MM:SS)")
+tiempo_50=Label(root, font=fuente_campos,  bg="#c5e1ff", text="50 mts Crol (MM:SS)")
 tiempo_50.grid(row=4, padx=10, column=0, sticky=W)
 
 # Defino variables para tomar valores de campos de entrada
@@ -251,9 +245,9 @@ scrollbar.config(command=scroll_veritcal)
 #----------  INICIO BOTONES   -----------
 
 button_width = 15
-button_frame_top = Frame(root, bg="#B3B7BF")
+button_frame_top = Frame(root, bg="#c5e1ff")
 button_frame_top.grid(row=9, column=0, columnspan=4)
-button_frame_bottom = Frame(root, bg="#B3B7BF")
+button_frame_bottom = Frame(root, bg="#c5e1ff")
 button_frame_bottom.grid(row=13, column=0, columnspan=4)
 
 boton_cerrar=Button(root, text="Cerrar Aplicación", width=button_width, command=lambda:cerrar_programa(tree))
