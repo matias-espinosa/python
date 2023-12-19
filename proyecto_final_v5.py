@@ -109,7 +109,6 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
             cursor.execute(sql, data)
             con.commit()
             con.close()
-            print("Registro Actualizado")
             actualizar_treeview(tree)
             a_val.set("")
             b_val.set("")
@@ -120,7 +119,6 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
 
 def mejor_tiempo(mitreview):
     records = mitreview.get_children()
-    print(records)
     for element in records:
         mitreview.delete(element)
     sql="""SELECT *
@@ -140,7 +138,6 @@ def mejor_tiempo(mitreview):
 
 def actualizar_treeview(mitreview):
     records = mitreview.get_children()
-    print(records)
     for element in records:
         mitreview.delete(element)
     sql = "SELECT * FROM alumnos ORDER BY id ASC"
@@ -151,6 +148,7 @@ def actualizar_treeview(mitreview):
     con.close()
     for fila in resultado:
         mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
+
 
 def seleccion_en_tree(event):
     fila_seleccionada = tree.focus()  # Obtener el item de Tkinter 'fila'
@@ -194,7 +192,7 @@ fuente_campos = ("Calibri", 11)
 titulo = Label(root,padx=10, anchor="w", font=fuente_titulo, text="Swim Tracker", bg="black", fg="white", height=2, width=60)
 titulo.grid(row=0, column=0, columnspan=4, sticky=W+E+N+S)
 
-dni = Label(root, font=fuente_campos, bg="#B3B7BF",text="DNI (solo números sin puntos)")
+dni = Label(root, font=fuente_campos, bg="#B3B7BF",text="DNI (solo números, sin puntos)")
 dni.grid(row=2, column=0, padx=10, sticky=W)
 nombre_apellido=Label(root, font=fuente_campos, bg="#B3B7BF", text="Nombre y Apellido")
 nombre_apellido.grid(row=3, padx=10, column=0, sticky=W)
@@ -203,6 +201,7 @@ tiempo_50.grid(row=4, padx=10, column=0, sticky=W)
 
 # Defino variables para tomar valores de campos de entrada
 a_val, b_val, c_val = IntVar(), StringVar(), StringVar()
+
 w_ancho = 31
 
 entrada1 = Entry(root, textvariable = a_val, width = w_ancho)
@@ -249,7 +248,7 @@ scrollbar.grid(row=11, column=3, padx=10,sticky='ens')
 tree.configure(yscrollcommand=scrollbar.set)
 scrollbar.config(command=scroll_veritcal)
 
-#----------    BOTONES   -----------
+#----------  INICIO BOTONES   -----------
 
 button_width = 15
 button_frame_top = Frame(root, bg="#B3B7BF")
@@ -278,6 +277,6 @@ boton_mejor_tiempo.grid(row=13, column=2, padx=12)
 boton_consulta=Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda:actualizar_treeview(tree)) #Consulta se usaba aca
 boton_consulta.grid(row=13, column=1, padx=12)
 
-#----------    BOTONES   -----------
+#----------   FIN BOTONES   -----------
 
 root.mainloop()
