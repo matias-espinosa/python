@@ -62,12 +62,12 @@ def alta(dni, nombre, tiempo_50_mts, tree):
             else:
                 messagebox.showinfo("DNI duplicado'", f'El DNI: {dni} ya se encuentra en la base de datos.\n\nModifique el tiempo o nombre del alumno existente.')
         else:
-            messagebox.showinfo("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
+            messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
     else:
         messagebox.showerror("Error DNI", "Ingrese un DNI valido.")
 
 
-def limpiar(dni, nombre, tiempo_50_mts, tree):
+def limpiar(tree):
     entrada1.configure(state='normal')
     a_val.set("")
     b_val.set("")
@@ -115,7 +115,7 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
             b_val.set("")
             c_val.set("")
     else:
-        messagebox.showinfo("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
+        messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
 
 
 def mejor_tiempo(mitreview):
@@ -194,7 +194,7 @@ fuente_campos = ("Calibri", 11)
 titulo = Label(root,padx=10, anchor="w", font=fuente_titulo, text="Swim Tracker", bg="black", fg="white", height=2, width=60)
 titulo.grid(row=0, column=0, columnspan=4, sticky=W+E+N+S)
 
-dni = Label(root, font=fuente_campos, bg="#B3B7BF",text="DNI (solo numeros sin puntos)")
+dni = Label(root, font=fuente_campos, bg="#B3B7BF",text="DNI (solo números sin puntos)")
 dni.grid(row=2, column=0, padx=10, sticky=W)
 nombre_apellido=Label(root, font=fuente_campos, bg="#B3B7BF", text="Nombre y Apellido")
 nombre_apellido.grid(row=3, padx=10, column=0, sticky=W)
@@ -257,13 +257,13 @@ button_frame_top.grid(row=9, column=0, columnspan=4)
 button_frame_bottom = Frame(root, bg="#B3B7BF")
 button_frame_bottom.grid(row=13, column=0, columnspan=4)
 
-boton_cerrar=Button(root, text="Cerrar Aplicacion", width=button_width, command=lambda:cerrar_programa(tree))
+boton_cerrar=Button(root, text="Cerrar Aplicación", width=button_width, command=lambda:cerrar_programa(tree))
 boton_cerrar.grid(row=0, column=3, sticky=E, padx=10)
 
 boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:alta(a_val.get(), b_val.get(), c_val.get(), tree))
 boton_alta.grid(row=6, column=3, padx=10, pady=5, sticky=E)
 
-boton_alta=Button(text="Limpiar", width=6, command=lambda:limpiar(a_val.get(), b_val.get(), c_val.get(), tree))
+boton_alta=Button(text="Limpiar", width=6, command=lambda:limpiar(tree))
 boton_alta.grid(row=6, column=2,sticky=E)
 
 boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar(a_val.get(), b_val.get(), c_val.get(), tree))
