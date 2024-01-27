@@ -1,6 +1,7 @@
 import sqlite3
 import re
 from tkinter import messagebox
+from tkinter import END
 
 # ##############################################
 # MODELO
@@ -33,7 +34,7 @@ except:
 
 #----------    FIN BASE DE DATOS   -----------
 
-def alta(dni, nombre, tiempo_50_mts, entrada1, tree):
+def alta(dni, nombre, tiempo_50_mts, entry_dni, tree):
     dni_str = str(dni)
     regex_tiempo="([0-9]{2}):([0-5][0-9])$"
     regex_dni = r'^\d{7,8}$'
@@ -52,7 +53,7 @@ def alta(dni, nombre, tiempo_50_mts, entrada1, tree):
                 con.commit()
                 actualizar_treeview(tree)
                 messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
-                limpiar(dni, nombre, tiempo_50_mts, entrada1 ,tree)
+                limpiar(dni, nombre, tiempo_50_mts, entry_dni ,tree)
                 con.close
             else:
                 messagebox.showinfo("DNI duplicado", f'El DNI: {dni} ya se encuentra en la base de datos.\n\nModifique el tiempo o nombre del alumno existente.')
@@ -62,11 +63,12 @@ def alta(dni, nombre, tiempo_50_mts, entrada1, tree):
         messagebox.showerror("Error DNI", "Ingrese un DNI valido.\nEjemplo: 30123456).")
 
 
-def limpiar(dni, nombre, tiempo_50_mts, entrada1, tree):
-    entrada1.configure(state='normal')
-    dni.set("")
-    nombre.set("")
-    tiempo_50_mts.set("")
+def limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree):
+    print(dni_value, nombre_value, tiempo_value, entry_dni, tree)
+    entry_dni.configure(state='normal')
+    dni_value.set("")
+    nombre_value.set("")
+    tiempo_value.set("")
 
 
 def borrar(tree):
@@ -110,7 +112,7 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
         messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
 
 
-def mejor_tiempo(mitreview):
+def mejor_tiempo(mitreview, tree):
     records = mitreview.get_children()
     for element in records:
         mitreview.delete(element)
@@ -141,28 +143,28 @@ def actualizar_treeview(mitreview):
         mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
 
 
-def seleccion_en_tree(event):
+def seleccion_en_tree(event, tree, entry_dni, entry_nombre, entry_tiempo):
     fila_seleccionada = tree.focus()  # Obtener el item de Tkinter 'fila'
     valores = tree.item(fila_seleccionada, 'values')  # Obtener los valores de la fila seleccionada
     # Llenar los widgets vacios con la fila seleccionada
-    entrada1.configure(state='normal')
-    entrada2.configure(state='normal')
-    entrada3.configure(state='normal')
-    entrada1.delete(0, END)
-    entrada2.delete(0, END)
-    entrada3.delete(0, END)
+    entry_dni.configure(state='normal')
+    entry_nombre.configure(state='normal')
+    entry_tiempo.configure(state='normal')
+    entry_dni.delete(0, END)
+    entry_nombre.delete(0, END)
+    entry_tiempo.delete(0, END)
     if valores:
-        entrada1.insert(0, valores[0])
-        entrada2.insert(0, valores[1])
-        entrada3.insert(0, valores[2])
-        entrada1.configure(state='disabled')
+        entry_dni.insert(0, valores[0])
+        entry_nombre.insert(0, valores[1])
+        entry_tiempo.insert(0, valores[2])
+        entry_dni.configure(state='disabled')
 
 
-def scroll_veritcal(*args):
+def scroll_vertical(tree,*args):
     tree.yview(*args)
 
 
-def cerrar_programa(tree):
+def cerrar_programa(root, tree):
     result = messagebox.askokcancel("OK o Cancelar", "Esta seguro que desea cerrar el programa?")
     if result == True:
         root.quit()

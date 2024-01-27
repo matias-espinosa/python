@@ -67,9 +67,9 @@ def alta(dni, nombre, tiempo_50_mts, tree):
 
 def limpiar(tree):
     entry_dni.configure(state='normal')
-    a_val.set("")
-    b_val.set("")
-    c_val.set("")
+    dni_value.set("")
+    nombre_value.set("")
+    tiempo_value.set("")
 
 
 def borrar(tree):
@@ -194,15 +194,15 @@ tiempo_50=Label(root, font=fuente_campos,  bg="#c5e1ff", text="50 mts Crol (MM:S
 tiempo_50.grid(row=4, padx=10, column=0, sticky=W)
 
 # Defino variables para tomar valores de campos de entrada
-a_val, b_val, c_val = IntVar(), StringVar(), StringVar()
+dni_value, nombre_value, tiempo_value = IntVar(), StringVar(), StringVar()
 
 w_ancho = 31
 
-entry_dni = Entry(root, textvariable = a_val, width = w_ancho)
+entry_dni = Entry(root, textvariable = dni_value, width = w_ancho)
 entry_dni.grid(row = 2, padx=10, column = 2, sticky=E, columnspan=2)
-entry_nombre = Entry(root, textvariable = b_val, width = w_ancho)
+entry_nombre = Entry(root, textvariable = nombre_value, width = w_ancho)
 entry_nombre.grid(row = 3, padx=10, column = 2, sticky=E, columnspan=2)
-entry_tiempo = Entry(root, textvariable = c_val, width = w_ancho)
+entry_tiempo = Entry(root, textvariable = tiempo_value, width = w_ancho)
 entry_tiempo.grid(row = 4, padx=10, column = 2, sticky=E, columnspan=2)
 
 
@@ -253,13 +253,13 @@ button_frame_bottom.grid(row=13, column=0, columnspan=4)
 boton_cerrar=Button(root, text="Cerrar Aplicación", width=button_width, command=lambda:cerrar_programa(tree))
 boton_cerrar.grid(row=0, column=3, sticky=E, padx=10)
 
-boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:alta(a_val.get(), b_val.get(), c_val.get(), tree))
+boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:alta(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree))
 boton_alta.grid(row=6, column=3, padx=10, pady=5, sticky=E)
 
 boton_alta=Button(text="Limpiar", width=6, command=lambda:limpiar(tree))
 boton_alta.grid(row=6, column=2,sticky=E)
 
-boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar(a_val.get(), b_val.get(), c_val.get(), tree))
+boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree))
 boton_modificar.grid(row=9, column=2, padx=12)
 
 boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:borrar(tree))

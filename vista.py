@@ -8,7 +8,7 @@ from modelo import limpiar
 from modelo import mejor_tiempo
 from modelo import actualizar_treeview
 from modelo import seleccion_en_tree
-from modelo import scroll_veritcal
+from modelo import scroll_vertical
 
 # ##############################################
 # VISTA INTEGRADA CON EL CONTROLADOR
@@ -33,16 +33,16 @@ tiempo_50=Label(root, font=fuente_campos,  bg="#c5e1ff", text="50 mts Crol (MM:S
 tiempo_50.grid(row=4, padx=10, column=0, sticky=W)
 
 # Defino variables para tomar valores de campos de entrada
-a_val, b_val, c_val = IntVar(), StringVar(), StringVar()
+dni_value, nombre_value, tiempo_value = IntVar(), StringVar(), StringVar()
 
 w_ancho = 31
 
-entrada1 = Entry(root, textvariable = a_val, width = w_ancho)
-entrada1.grid(row = 2, padx=10, column = 2, sticky=E, columnspan=2)
-entrada2 = Entry(root, textvariable = b_val, width = w_ancho)
-entrada2.grid(row = 3, padx=10, column = 2, sticky=E, columnspan=2)
-entrada3 = Entry(root, textvariable = c_val, width = w_ancho)
-entrada3.grid(row = 4, padx=10, column = 2, sticky=E, columnspan=2)
+entry_dni = Entry(root, textvariable = dni_value, width = w_ancho)
+entry_dni.grid(row = 2, padx=10, column = 2, sticky=E, columnspan=2)
+entry_nombre = Entry(root, textvariable = nombre_value, width = w_ancho)
+entry_nombre.grid(row = 3, padx=10, column = 2, sticky=E, columnspan=2)
+entry_tiempo = Entry(root, textvariable = tiempo_value, width = w_ancho)
+entry_tiempo.grid(row = 4, padx=10, column = 2, sticky=E, columnspan=2)
 
 
 # --------------------------------------------------
@@ -74,12 +74,14 @@ root.rowconfigure(10, weight=1, minsize=1)
 root.rowconfigure(12, weight=1, minsize=1)
 root.rowconfigure(14, weight=1, minsize=10)
 
-tree.bind("<<TreeviewSelect>>", seleccion_en_tree)
+tree.bind("<<TreeviewSelect>>", lambda event: seleccion_en_tree(event, tree, entry_dni, entry_nombre, entry_tiempo))
 
 scrollbar = ttk.Scrollbar(root, orient='vertical', command=tree.yview)
 scrollbar.grid(row=11, column=3, padx=10,sticky='ens')
 tree.configure(yscrollcommand=scrollbar.set)
-scrollbar.config(command=scroll_veritcal)
+scrollbar.config(command=lambda *args: scroll_vertical(tree, *args))
+#tree.configure(yscrollcommand=lambda *args: scroll_vertical(tree, *args))
+
 
 #----------  INICIO BOTONES   -----------
 
@@ -89,16 +91,16 @@ button_frame_top.grid(row=9, column=0, columnspan=4)
 button_frame_bottom = Frame(root, bg="#c5e1ff")
 button_frame_bottom.grid(row=13, column=0, columnspan=4)
 
-boton_cerrar=Button(root, text="Cerrar Aplicación", width=button_width, command=lambda:cerrar_programa(tree))
+boton_cerrar=Button(root, text="Cerrar Aplicación", width=button_width, command=lambda:cerrar_programa(root, tree))
 boton_cerrar.grid(row=0, column=3, sticky=E, padx=10)
 
-boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:alta(a_val.get(), b_val.get(), c_val.get(),entrada1, tree))
+boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:alta(dni_value.get(), nombre_value.get(), tiempo_value.get(),entry_dni, tree))
 boton_alta.grid(row=6, column=3, padx=10, pady=5, sticky=E)
 
-boton_limpiar=Button(text="Limpiar", width=6, command=lambda:limpiar(a_val.get(), b_val.get(), c_val.get(), entrada1, tree))
+boton_limpiar=Button(text="Limpiar", width=6, command=lambda:limpiar(dni_value.get(), nombre_value.get(), tiempo_value.get(), entry_dni, tree))
 boton_limpiar.grid(row=6, column=2,sticky=E)
 
-boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar(a_val.get(), b_val.get(), c_val.get(), tree))
+boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree))
 boton_modificar.grid(row=9, column=2, padx=12)
 
 boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:borrar(tree))
