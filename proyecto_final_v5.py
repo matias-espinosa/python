@@ -256,8 +256,8 @@ boton_cerrar.grid(row=0, column=3, sticky=E, padx=10)
 boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:alta(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree))
 boton_alta.grid(row=6, column=3, padx=10, pady=5, sticky=E)
 
-boton_alta=Button(text="Limpiar", width=6, command=lambda:limpiar(tree))
-boton_alta.grid(row=6, column=2,sticky=E)
+boton_limpiar=Button(text="Limpiar", width=6, command=lambda:limpiar(tree))
+boton_limpiar.grid(row=6, column=2,sticky=E)
 
 boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree))
 boton_modificar.grid(row=9, column=2, padx=12)

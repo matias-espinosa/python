@@ -1,7 +1,8 @@
 import sqlite3
 import re
 from tkinter import messagebox
-from tkinter import END
+from tkinter import END, IntVar, StringVar, StringVar
+
 
 # ##############################################
 # MODELO
@@ -34,7 +35,7 @@ except:
 
 #----------    FIN BASE DE DATOS   -----------
 
-def alta(dni, nombre, tiempo_50_mts, entry_dni, tree):
+def alta(dni, nombre, tiempo_50_mts, tree):
     dni_str = str(dni)
     regex_tiempo="([0-9]{2}):([0-5][0-9])$"
     regex_dni = r'^\d{7,8}$'
@@ -53,22 +54,18 @@ def alta(dni, nombre, tiempo_50_mts, entry_dni, tree):
                 con.commit()
                 actualizar_treeview(tree)
                 messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
-                limpiar(dni, nombre, tiempo_50_mts, entry_dni ,tree)
+                #limpiar(dni, nombre, tiempo_50_mts, entry_dni ,tree)
                 con.close
+                return "Alta"
             else:
                 messagebox.showinfo("DNI duplicado", f'El DNI: {dni} ya se encuentra en la base de datos.\n\nModifique el tiempo o nombre del alumno existente.')
+                return 1
         else:
             messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
+            return 1
     else:
         messagebox.showerror("Error DNI", "Ingrese un DNI valido.\nEjemplo: 30123456).")
-
-
-def limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree):
-    print(dni_value, nombre_value, tiempo_value, entry_dni, tree)
-    entry_dni.configure(state='normal')
-    dni_value.set("")
-    nombre_value.set("")
-    tiempo_value.set("")
+        return 1
 
 
 def borrar(tree):
@@ -107,12 +104,13 @@ def modificar(dni, nombre, tiempo_50_mts, tree):
             con.commit()
             con.close()
             actualizar_treeview(tree)
-            limpiar(tree)
+            return "Modificado"
     else:
         messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
+        return 1
 
 
-def mejor_tiempo(mitreview, tree):
+def mejor_tiempo(mitreview):
     records = mitreview.get_children()
     for element in records:
         mitreview.delete(element)
@@ -126,7 +124,6 @@ def mejor_tiempo(mitreview, tree):
     con.close()
     for fila in resultado:
         mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
-        limpiar(tree)
 
 
 def actualizar_treeview(mitreview):

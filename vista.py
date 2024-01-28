@@ -4,14 +4,14 @@ from modelo import cerrar_programa
 from modelo import alta
 from modelo import borrar
 from modelo import modificar
-from modelo import limpiar
 from modelo import mejor_tiempo
 from modelo import actualizar_treeview
 from modelo import seleccion_en_tree
 from modelo import scroll_vertical
 
+
 # ##############################################
-# VISTA INTEGRADA CON EL CONTROLADOR
+# VISTA
 # ##############################################
 
 root = Tk()
@@ -83,6 +83,25 @@ scrollbar.config(command=lambda *args: scroll_vertical(tree, *args))
 #tree.configure(yscrollcommand=lambda *args: scroll_vertical(tree, *args))
 
 
+#----------  FUNCIONES AUXILIARES   -----------
+
+def limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree):
+   entry_dni.configure(state='normal')
+   dni_value.set("")
+   nombre_value.set("")
+   tiempo_value.set("")
+
+def alta_vista ():
+    retorno=alta(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree)
+    if retorno == "Alta":
+        limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree)
+
+def modificar_vista ():
+    retorno=modificar(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree)
+    if retorno == "Modificado":
+        limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree)
+
+
 #----------  INICIO BOTONES   -----------
 
 button_width = 15
@@ -94,13 +113,13 @@ button_frame_bottom.grid(row=13, column=0, columnspan=4)
 boton_cerrar=Button(root, text="Cerrar Aplicación", width=button_width, command=lambda:cerrar_programa(root, tree))
 boton_cerrar.grid(row=0, column=3, sticky=E, padx=10)
 
-boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:alta(dni_value.get(), nombre_value.get(), tiempo_value.get(),entry_dni, tree))
+boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:alta_vista())
 boton_alta.grid(row=6, column=3, padx=10, pady=5, sticky=E)
 
-boton_limpiar=Button(text="Limpiar", width=6, command=lambda:limpiar(dni_value.get(), nombre_value.get(), tiempo_value.get(), entry_dni, tree))
+boton_limpiar=Button(text="Limpiar", width=6, command=lambda:limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree))
 boton_limpiar.grid(row=6, column=2,sticky=E)
 
-boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree))
+boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar_vista())
 boton_modificar.grid(row=9, column=2, padx=12)
 
 boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:borrar(tree))
