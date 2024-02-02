@@ -3,9 +3,11 @@ import re
 from tkinter import messagebox
 from tkinter import END
 
+
 # ##############################################
 # MODELO
 # ##############################################
+
 
 #----------    INICIO BASE DE DATOS   -----------
 
@@ -52,7 +54,6 @@ def alta(dni, nombre, tiempo_50_mts, tree):
                 con.commit()
                 actualizar_treeview(tree)
                 messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
-                #limpiar(dni, nombre, tiempo_50_mts, entry_dni ,tree)
                 con.close
                 return "Alta"
             else:
