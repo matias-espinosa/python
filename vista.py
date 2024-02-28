@@ -1,13 +1,14 @@
 from tkinter import *
 from tkinter import ttk
 from modelo import cerrar_programa
-from modelo import alta
-from modelo import borrar
-from modelo import modificar
-from modelo import mejor_tiempo
+#from modelo import alta
+#from modelo import borrar
+#from modelo import modificar
+#from modelo import mejor_tiempo
 from modelo import actualizar_treeview
 from modelo import seleccion_en_tree
 from modelo import scroll_vertical
+from modelo import InteraccionBd
 
 
 # ##############################################
@@ -15,6 +16,8 @@ from modelo import scroll_vertical
 # ##############################################
 
 root = Tk()
+
+interaccionBd = InteraccionBd()
 
 root.title("Swim Tracker")
 root.configure(bg="#c5e1ff")
@@ -92,12 +95,12 @@ def limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree):
    tiempo_value.set("")
 
 def alta_vista ():
-    retorno=alta(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree)
+    retorno=interaccionBd.alta(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree)
     if retorno == "Alta":
         limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree)
 
 def modificar_vista ():
-    retorno=modificar(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree)
+    retorno=interaccionBd.modificar(dni_value.get(), nombre_value.get(), tiempo_value.get(), tree)
     if retorno == "Modificado":
         limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree)
 
@@ -122,10 +125,10 @@ boton_limpiar.grid(row=6, column=2,sticky=E)
 boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar_vista())
 boton_modificar.grid(row=9, column=2, padx=12)
 
-boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:borrar(tree))
+boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:interaccionBd.borrar(tree))
 boton_borrar.grid(row=9, column=1, padx=12)
 
-boton_mejor_tiempo=Button(button_frame_bottom, text="Mejor tiempo", width=button_width, command=lambda:mejor_tiempo(tree))
+boton_mejor_tiempo=Button(button_frame_bottom, text="Mejor tiempo", width=button_width, command=lambda:interaccionBd.mejor_tiempo(tree))
 boton_mejor_tiempo.grid(row=13, column=2, padx=12)
 
 boton_consulta=Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda:actualizar_treeview(tree)) #Consulta se usaba aca
