@@ -14,7 +14,6 @@ from modelo import InteraccionBd
 class Ventana:
     def __init__(self, window) -> None:
         self.root=window
-        self.objeto_interaccionBd = InteraccionBd()
 
         root.title("Swim Tracker")
         root.configure(bg="#c5e1ff")
@@ -75,7 +74,42 @@ class Ventana:
         self.tree.configure(yscrollcommand=scrollbar.set)
         scrollbar.config(command=lambda *args: scroll_vertical(self.tree, *args))
 
+
+        #----------  FUNCIONES AUXILIARES   -----------
+
+class FuncionesAuxiliares:
+    def __init__(self, dni_value, nombre_value, tiempo_value, entry_dni, tree) -> None:
+        self.dni_value = dni_value
+        self.nombre_value = nombre_value
+        self.tiempo_value = tiempo_value
+        self.entry_dni = entry_dni
+        self.tree = tree
+        self.objeto_interaccionBd = InteraccionBd()
+
+    def limpiar(self):
+        self.entry_dni.configure(state='normal')
+        self.dni_value.set("")
+        self.nombre_value.set("")
+        self.tiempo_value.set("")
+
+    def alta_vista(self):
+        retorno = self.objeto_interaccionBd.alta(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
+        if retorno == "Alta":
+            self.limpiar()
+
+    def modificar_vista(self):
+        retorno = self.objeto_interaccionBd.modificar(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
+        if retorno == "Modificado":
+            self.limpiar()
+
+
+
         #----------  INICIO BOTONES   -----------
+class Buttons:
+    def __init__(self, root, dni_value, nombre_value, tiempo_value, entry_dni, tree) -> None:
+        self.objeto_interaccionBd = InteraccionBd()
+        self.root = root
+        self.funciones_auxiliares = FuncionesAuxiliares(dni_value, nombre_value, tiempo_value, entry_dni, tree)
 
         button_width = 15
         button_frame_top = Frame(self.root, bg="#c5e1ff")
@@ -83,48 +117,30 @@ class Ventana:
         button_frame_bottom = Frame(self.root, bg="#c5e1ff")
         button_frame_bottom.grid(row=13, column=0, columnspan=4)
 
-        self.boton_cerrar=Button(self.root, text="Cerrar Aplicación", width=button_width, command=lambda:cerrar_programa(root, self.tree))
+        self.boton_cerrar=Button(self.root, text="Cerrar Aplicación", width=button_width, command=lambda:cerrar_programa(root, tree))
         self.boton_cerrar.grid(row=0, column=3, sticky=E, padx=10)
 
-        self.boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:alta_vista())
+        self.boton_alta=Button(text="Agregar tiempo", width=button_width, command=lambda:self.funciones_auxiliares.alta_vista())
         self.boton_alta.grid(row=6, column=3, padx=10, pady=5, sticky=E)
 
-        self.boton_limpiar=Button(text="Limpiar", width=6, command=lambda:limpiar(self.dni_value, self.nombre_value, self.tiempo_value, self.entry_dni, self.tree))
+        self.boton_limpiar=Button(text="Limpiar", width=6, command=lambda:self.funciones_auxiliares.limpiar())
         self.boton_limpiar.grid(row=6, column=2,sticky=E)
 
-        self.boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar_vista())
+        self.boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:self.funciones_auxiliares.modificar_vista())
         self.boton_modificar.grid(row=9, column=2, padx=12)
 
-        self.boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:self.objeto_interaccionBd.borrar(self.tree))
+        self.boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:self.objeto_interaccionBd.borrar(tree))
         self.boton_borrar.grid(row=9, column=1, padx=12)
 
-        self.boton_mejor_tiempo=Button(button_frame_bottom, text="Mejor tiempo", width=button_width, command=lambda:self.objeto_interaccionBd.mejor_tiempo(self.tree))
+        self.boton_mejor_tiempo=Button(button_frame_bottom, text="Mejor tiempo", width=button_width, command=lambda:self.objeto_interaccionBd.mejor_tiempo(tree))
         self.boton_mejor_tiempo.grid(row=13, column=2, padx=12)
 
-        self.boton_consulta=Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda:actualizar_treeview(self.tree)) 
+        self.boton_consulta=Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda:actualizar_treeview(tree))
         self.boton_consulta.grid(row=13, column=1, padx=12)
 
         #----------   FIN BOTONES   -----------
-
-        #----------  FUNCIONES AUXILIARES   -----------
-
-        def limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree):
-            entry_dni.configure(state='normal')
-            dni_value.set("")
-            nombre_value.set("")
-            tiempo_value.set("")
-
-        def alta_vista ():
-            retorno=self.objeto_interaccionBd.alta(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
-            if retorno == "Alta":
-                limpiar(self.dni_value, self.nombre_value, self.tiempo_value, self.entry_dni, self.tree)
-
-        def modificar_vista ():
-            retorno=self.objeto_interaccionBd.modificar(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
-            if retorno == "Modificado":
-                limpiar(self.dni_value, self.nombre_value, self.tiempo_value, self.entry_dni, self.tree)
-
 if __name__ == "__main__":
     root = Tk()
     aplicacion = Ventana(root)
+    botones = Buttons(root, aplicacion.dni_value, aplicacion.nombre_value, aplicacion.tiempo_value, aplicacion.entry_dni, aplicacion.tree)
     root.mainloop()
