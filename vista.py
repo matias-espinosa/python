@@ -1,10 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 from modelo import cerrar_programa
-from modelo import actualizar_treeview
-from modelo import seleccion_en_tree
-from modelo import scroll_vertical
-from modelo import InteraccionBd
+from modelo import Treeview
+from modelo import Nadador
 
 
 # ##############################################
@@ -14,9 +12,10 @@ from modelo import InteraccionBd
 class Ventana:
     def __init__(self, window) -> None:
         self.root=window
+        self.objeto_treeview = Treeview
 
-        root.title("Swim Tracker")
-        root.configure(bg="#c5e1ff")
+        self.root.title("Swim Tracker")
+        self.root.configure(bg="#c5e1ff")
 
         fuente_titulo = ("Arial", 16, "bold")
         fuente_campos = ("Calibri", 11)
@@ -36,14 +35,14 @@ class Ventana:
 
         w_ancho = 31
 
-        self.entry_dni = Entry(root, textvariable = self.dni_value, width = w_ancho)
+        self.entry_dni = Entry(self.root, textvariable = self.dni_value, width = w_ancho)
         self.entry_dni.grid(row = 2, padx=10, column = 2, sticky=E, columnspan=2)
-        self.entry_nombre = Entry(root, textvariable = self.nombre_value, width = w_ancho)
+        self.entry_nombre = Entry(self.root, textvariable = self.nombre_value, width = w_ancho)
         self.entry_nombre.grid(row = 3, padx=10, column = 2, sticky=E, columnspan=2)
-        self.entry_tiempo = Entry(root, textvariable = self.tiempo_value, width = w_ancho)
+        self.entry_tiempo = Entry(self.root, textvariable = self.tiempo_value, width = w_ancho)
         self.entry_tiempo.grid(row = 4, padx=10, column = 2, sticky=E, columnspan=2)
 
-        self.tree = ttk.Treeview(root, selectmode="browse")
+        self.tree = ttk.Treeview(self.root, selectmode="browse")
         self.root.geometry("420x530")
 
         self.tree["columns"]=("col1", "col2", "col3")
@@ -58,21 +57,21 @@ class Ventana:
 
         self.tree.grid(row=11, padx=10, column=0, columnspan=4,sticky=W)
 
-        root.rowconfigure(0, weight=1)
-        root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
+        self.root.columnconfigure(0, weight=1)
 
-        root.rowconfigure(1, weight=1, minsize=1)
-        root.rowconfigure(8, weight=1, minsize=10)
-        root.rowconfigure(10, weight=1, minsize=1)
-        root.rowconfigure(12, weight=1, minsize=1)
-        root.rowconfigure(14, weight=1, minsize=10)
+        self.root.rowconfigure(1, weight=1, minsize=1)
+        self.root.rowconfigure(8, weight=1, minsize=10)
+        self.root.rowconfigure(10, weight=1, minsize=1)
+        self.root.rowconfigure(12, weight=1, minsize=1)
+        self.root.rowconfigure(14, weight=1, minsize=10)
 
-        self.tree.bind("<<TreeviewSelect>>", lambda event: seleccion_en_tree(event, self.tree, self.entry_dni, self.entry_nombre, self.entry_tiempo))
+        self.tree.bind("<<TreeviewSelect>>", lambda event: self.objeto_treeview.seleccion_en_tree(event, self.tree, self.entry_dni, self.entry_nombre, self.entry_tiempo))
 
-        scrollbar = ttk.Scrollbar(root, orient='vertical', command=self.tree.yview)
+        scrollbar = ttk.Scrollbar(self.root, orient='vertical', command=self.tree.yview)
         scrollbar.grid(row=11, column=3, padx=10,sticky='ens')
         self.tree.configure(yscrollcommand=scrollbar.set)
-        scrollbar.config(command=lambda *args: scroll_vertical(self.tree, *args))
+        scrollbar.config(command=lambda *args: self.objeto_treeview.scroll_vertical(self.tree, *args))
 
 
         #----------  FUNCIONES AUXILIARES   -----------
@@ -84,7 +83,7 @@ class FuncionesAuxiliares:
         self.tiempo_value = tiempo_value
         self.entry_dni = entry_dni
         self.tree = tree
-        self.objeto_interaccionBd = InteraccionBd()
+        self.objeto_nadador= Nadador()
 
     def limpiar(self):
         self.entry_dni.configure(state='normal')
@@ -93,25 +92,25 @@ class FuncionesAuxiliares:
         self.tiempo_value.set("")
 
     def alta_vista(self):
-        retorno = self.objeto_interaccionBd.alta(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
+        retorno = self.objeto_nadador.alta(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
         if retorno == "Alta":
             self.limpiar()
 
     def modificar_vista(self):
-        retorno = self.objeto_interaccionBd.modificar(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
+        retorno = self.objeto_nadador.modificar(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
         if retorno == "Modificado":
             self.limpiar()
 
 
-
-        #----------  INICIO BOTONES   -----------
 class Buttons:
     def __init__(self, root, dni_value, nombre_value, tiempo_value, entry_dni, tree) -> None:
-        self.objeto_interaccionBd = InteraccionBd()
         self.root = root
+        self.objeto_nadador = Nadador()
         self.funciones_auxiliares = FuncionesAuxiliares(dni_value, nombre_value, tiempo_value, entry_dni, tree)
+        self.objeto_treeview = Treeview
 
         button_width = 15
+
         button_frame_top = Frame(self.root, bg="#c5e1ff")
         button_frame_top.grid(row=9, column=0, columnspan=4)
         button_frame_bottom = Frame(self.root, bg="#c5e1ff")
@@ -129,18 +128,11 @@ class Buttons:
         self.boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:self.funciones_auxiliares.modificar_vista())
         self.boton_modificar.grid(row=9, column=2, padx=12)
 
-        self.boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:self.objeto_interaccionBd.borrar(tree))
+        self.boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:self.objeto_nadador.borrar(tree))
         self.boton_borrar.grid(row=9, column=1, padx=12)
 
-        self.boton_mejor_tiempo=Button(button_frame_bottom, text="Mejor tiempo", width=button_width, command=lambda:self.objeto_interaccionBd.mejor_tiempo(tree))
+        self.boton_mejor_tiempo=Button(button_frame_bottom, text="Mejor tiempo", width=button_width, command=lambda:self.objeto_nadador.mejor_tiempo(tree))
         self.boton_mejor_tiempo.grid(row=13, column=2, padx=12)
 
-        self.boton_consulta=Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda:actualizar_treeview(tree))
+        self.boton_consulta=Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda:self.objeto_treeview.actualizar_treeview(tree))
         self.boton_consulta.grid(row=13, column=1, padx=12)
-
-        #----------   FIN BOTONES   -----------
-if __name__ == "__main__":
-    root = Tk()
-    aplicacion = Ventana(root)
-    botones = Buttons(root, aplicacion.dni_value, aplicacion.nombre_value, aplicacion.tiempo_value, aplicacion.entry_dni, aplicacion.tree)
-    root.mainloop()
