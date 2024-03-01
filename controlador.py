@@ -1,11 +1,15 @@
 from tkinter import Tk
-import vista
+from vista import Ventana
+from base_de_datos import Database
 
 def main ():
     root = Tk()
-    aplicacion = vista.Ventana(root)
-    botones = vista.Buttons(root, aplicacion.dni_value, aplicacion.nombre_value, aplicacion.tiempo_value, aplicacion.entry_dni, aplicacion.tree)
+    aplicacion = Ventana(root)
     root.mainloop()
+    db = Database()
+    db.conexion()
+    db.create_table()
+    db.close()
 
 if __name__ == "__main__":
     main()
