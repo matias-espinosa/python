@@ -42,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../base_de_datos.html">base_de_datos module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../controlador.html">controlador module</a></li>
@@ -76,8 +76,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for regex_validations</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Modulo de validacion de datos en campos usando Expresiones Regulares&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">re</span>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
 
 <div class="viewcode-block" id="ValidationUtils">
 <a class="viewcode-back" href="../regex_validations.html#regex_validations.ValidationUtils">[docs]</a>
@@ -86,6 +85,7 @@
 <a class="viewcode-back" href="../regex_validations.html#regex_validations.ValidationUtils.validate_dni">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">validate_dni</span><span class="p">(</span><span class="n">dni</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo que valida el campo DNI**&quot;&quot;&quot;</span>
         <span class="n">dni_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">dni</span><span class="p">)</span>
         <span class="n">regex_dni</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;^\d{7,8}$&#39;</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex_dni</span><span class="p">,</span> <span class="n">dni_str</span><span class="p">))</span></div>
@@ -95,6 +95,7 @@
 <a class="viewcode-back" href="../regex_validations.html#regex_validations.ValidationUtils.validate_tiempo">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">validate_tiempo</span><span class="p">(</span><span class="n">tiempo_50_mts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo que valida el campo Tiempo**&quot;&quot;&quot;</span>
         <span class="n">regex_tiempo</span> <span class="o">=</span> <span class="s2">&quot;([0-9]</span><span class="si">{2}</span><span class="s2">):([0-5][0-9])$&quot;</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex_tiempo</span><span class="p">,</span> <span class="n">tiempo_50_mts</span><span class="p">))</span></div>
 </div>

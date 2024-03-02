@@ -1,5 +1,3 @@
-"""Modulo Vista, donde se encuentra el codigo del GUI Tkinter"""
-
 from tkinter import *
 from tkinter import ttk
 from modelo import cerrar_programa
@@ -7,6 +5,7 @@ from modelo import Treeview
 from modelo import Nadador
 
 class Ventana:
+    """**Clase principal que arma la ventana de la App**"""
     def __init__(self, window) -> None:
         self.root=window
         self.objeto_treeview = Treeview()

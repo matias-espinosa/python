@@ -3,20 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to SwimTracker's documentation!
+Welcome to Swim Tracker's documentation!
 =======================================
-
-La aplicación **Swim Tracker** es una herramienta desarrollada con Tkinter en Python que permite manejar información sobre alumnos de natación. This project is under active development.
 
 .. toctree::
    :maxdepth: 4
-   :caption: Contenido:
+   :caption: Modulos:
 
-   base_de_datos
-   controlador
-   modelo
-   regex_validations
-   vista
+   Base_de_datos
+   Controlador
+   Modelo
+   Rregex_validations
+   Vista
 
 
 Indices and tables

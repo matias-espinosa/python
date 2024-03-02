@@ -42,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../base_de_datos.html">base_de_datos module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../controlador.html">controlador module</a></li>
@@ -76,8 +76,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for modelo</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Modelo  donde se encuentra la mayor parte de la logica de la App. &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">messagebox</span>
+<span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">messagebox</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">END</span>
 <span class="kn">from</span> <span class="nn">regex_validations</span> <span class="kn">import</span> <span class="n">ValidationUtils</span>
 <span class="kn">from</span> <span class="nn">base_de_datos</span> <span class="kn">import</span> <span class="n">Database</span>
@@ -85,11 +84,16 @@
 <div class="viewcode-block" id="Nadador">
 <a class="viewcode-back" href="../modelo.html#modelo.Nadador">[docs]</a>
 <span class="k">class</span> <span class="nc">Nadador</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;**Clase principal contiene diferentes metodos que involucran al Nadador.**&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">pass</span>
 <div class="viewcode-block" id="Nadador.alta">
 <a class="viewcode-back" href="../modelo.html#modelo.Nadador.alta">[docs]</a>
     <span class="k">def</span> <span class="nf">alta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dni</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">tiempo_50_mts</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo de alta de registro.**\n</span>
+<span class="sd">           Permite ingresar datos como DNI, Nombre y Apellido, y el tiempo registrado en pasadas de 50 metros estilo crol en formato MM:SS.\n</span>
+<span class="sd">           Esta información se almacena en una base de datos SQLite3.\n</span>
+<span class="sd">           El usuario recibe una notificación de alta exitosa en forma de pop up.&quot;&quot;&quot;</span>
         <span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objeto_treeview</span> <span class="o">=</span> <span class="n">Treeview</span><span class="p">()</span>
         <span class="n">dni_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">dni</span><span class="p">)</span>
@@ -125,6 +129,10 @@
 <div class="viewcode-block" id="Nadador.borrar">
 <a class="viewcode-back" href="../modelo.html#modelo.Nadador.borrar">[docs]</a>
     <span class="k">def</span> <span class="nf">borrar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo para borrar un registro.**\n</span>
+<span class="sd">            El usuario puede eliminar registros de la base de datos, habiendo seleccionando una entrada previa.\n</span>
+<span class="sd">            Para evitar errores humanos, una validación en forma de pop up se presenta al usuario</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
         <span class="n">valor</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
@@ -147,6 +155,8 @@
 <div class="viewcode-block" id="Nadador.modificar">
 <a class="viewcode-back" href="../modelo.html#modelo.Nadador.modificar">[docs]</a>
     <span class="k">def</span> <span class="nf">modificar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dni</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">tiempo_50_mts</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo para modificar un registro**.\n</span>
+<span class="sd">        Para evitar errores humanos, una validación en forma de pop up se presenta al usuario&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objeto_treeview</span> <span class="o">=</span> <span class="n">Treeview</span><span class="p">()</span>
         <span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">ValidationUtils</span><span class="o">.</span><span class="n">validate_tiempo</span><span class="p">(</span><span class="n">tiempo_50_mts</span><span class="p">):</span>
@@ -174,6 +184,8 @@
 <div class="viewcode-block" id="Nadador.mejor_tiempo">
 <a class="viewcode-back" href="../modelo.html#modelo.Nadador.mejor_tiempo">[docs]</a>
     <span class="k">def</span> <span class="nf">mejor_tiempo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mitreview</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo que nos permite encontrar y mostrar el mejor tiempo registrado.**\n</span>
+<span class="sd">        Si hubiera multiples alumnos con el mismo mejor tiempo, entonces se mostraran todos los que compartan dicha categoría.&quot;&quot;&quot;</span>
         <span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
         <span class="n">records</span> <span class="o">=</span> <span class="n">mitreview</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
@@ -195,11 +207,14 @@
 <div class="viewcode-block" id="Treeview">
 <a class="viewcode-back" href="../modelo.html#modelo.Treeview">[docs]</a>
 <span class="k">class</span> <span class="nc">Treeview</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;**Clase que interactua con el Treeview**\n</span>
+<span class="sd">         Grilla de datos donde se encuentran los nadadores que estan la Base de Datos&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">pass</span>
 <div class="viewcode-block" id="Treeview.actualizar_treeview">
 <a class="viewcode-back" href="../modelo.html#modelo.Treeview.actualizar_treeview">[docs]</a>
     <span class="k">def</span> <span class="nf">actualizar_treeview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mitreview</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Metodo que actualiza el listado de la grilla&quot;&quot;&quot;</span>
         <span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
         <span class="n">records</span> <span class="o">=</span> <span class="n">mitreview</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
@@ -218,6 +233,7 @@
 <div class="viewcode-block" id="Treeview.seleccion_en_tree">
 <a class="viewcode-back" href="../modelo.html#modelo.Treeview.seleccion_en_tree">[docs]</a>
     <span class="k">def</span> <span class="nf">seleccion_en_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">entry_dni</span><span class="p">,</span> <span class="n">entry_nombre</span><span class="p">,</span> <span class="n">entry_tiempo</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo para seleccionar filas en la grilla.**&quot;&quot;&quot;</span>
         <span class="n">fila_seleccionada</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">focus</span><span class="p">()</span>  <span class="c1"># Obtener el item de Tkinter &#39;fila&#39;</span>
         <span class="n">valores</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">fila_seleccionada</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">)</span>  <span class="c1"># Obtener los valores de la fila seleccionada</span>
         <span class="c1"># Llenar los widgets vacios con la fila seleccionada</span>
@@ -238,6 +254,7 @@
 <div class="viewcode-block" id="Treeview.scroll_vertical">
 <a class="viewcode-back" href="../modelo.html#modelo.Treeview.scroll_vertical">[docs]</a>
     <span class="k">def</span> <span class="nf">scroll_vertical</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo que controla el scroll vertical de la grilla**&quot;&quot;&quot;</span>
         <span class="n">tree</span><span class="o">.</span><span class="n">yview</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
 </div>
 
@@ -245,6 +262,9 @@
 <div class="viewcode-block" id="cerrar_programa">
 <a class="viewcode-back" href="../modelo.html#modelo.cerrar_programa">[docs]</a>
 <span class="k">def</span> <span class="nf">cerrar_programa</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;**Funcion para cerrar el programa.**\n</span>
+<span class="sd">       Cierra la ventana y finaliza la aplicación.\n</span>
+<span class="sd">       El usuario deberá confirmar en la ventana de pop up emergente, que efectivamente desea cerrar la aplicación.&quot;&quot;&quot;</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">messagebox</span><span class="o">.</span><span class="n">askokcancel</span><span class="p">(</span><span class="s2">&quot;OK o Cancelar&quot;</span><span class="p">,</span> <span class="s2">&quot;Esta seguro que desea cerrar el programa?&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">root</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div>

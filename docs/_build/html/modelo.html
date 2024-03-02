@@ -45,7 +45,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="base_de_datos.html">base_de_datos module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="controlador.html">controlador module</a></li>
@@ -94,32 +94,44 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-modelo">
-<span id="modelo-module"></span><h1>modelo module<a class="headerlink" href="#module-modelo" title="Link to this heading"></a></h1>
-<p>Modelo  donde se encuentra la mayor parte de la logica de la App.</p>
-<dl class="py class">
+  <section id="modelo-module">
+<h1>modelo module<a class="headerlink" href="#modelo-module" title="Link to this heading"></a></h1>
+<p>Modulo donde se encuentra la mayor parte de la logica de la App.</p>
+<dl class="py class" id="module-modelo">
 <dt class="sig sig-object py" id="modelo.Nadador">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelo.</span></span><span class="sig-name descname"><span class="pre">Nadador</span></span><a class="reference internal" href="_modules/modelo.html#Nadador"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelo.Nadador" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p><strong>Clase principal contiene diferentes metodos que involucran al Nadador.</strong></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="modelo.Nadador.alta">
 <span class="sig-name descname"><span class="pre">alta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dni</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tiempo_50_mts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelo.html#Nadador.alta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelo.Nadador.alta" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p><strong>Metodo de alta de registro.</strong></p>
+<p>Permite ingresar datos como DNI, Nombre y Apellido, y el tiempo registrado en pasadas de 50 metros estilo crol en formato MM:SS.</p>
+<p>Esta información se almacena en una base de datos SQLite3.</p>
+<p>El usuario recibe una notificación de alta exitosa en forma de pop up.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="modelo.Nadador.borrar">
 <span class="sig-name descname"><span class="pre">borrar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelo.html#Nadador.borrar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelo.Nadador.borrar" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p><strong>Metodo para borrar un registro.</strong></p>
+<p>El usuario puede eliminar registros de la base de datos, habiendo seleccionando una entrada previa.</p>
+<p>Para evitar errores humanos, una validación en forma de pop up se presenta al usuario</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="modelo.Nadador.mejor_tiempo">
 <span class="sig-name descname"><span class="pre">mejor_tiempo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mitreview</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelo.html#Nadador.mejor_tiempo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelo.Nadador.mejor_tiempo" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p><strong>Metodo que nos permite encontrar y mostrar el mejor tiempo registrado.</strong></p>
+<p>Si hubiera multiples alumnos con el mismo mejor tiempo, entonces se mostraran todos los que compartan dicha categoría.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="modelo.Nadador.modificar">
 <span class="sig-name descname"><span class="pre">modificar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dni</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tiempo_50_mts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelo.html#Nadador.modificar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelo.Nadador.modificar" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p><strong>Metodo para modificar un registro</strong>.</p>
+<p>Para evitar errores humanos, una validación en forma de pop up se presenta al usuario</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -127,27 +139,35 @@
 <dt class="sig sig-object py" id="modelo.Treeview">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelo.</span></span><span class="sig-name descname"><span class="pre">Treeview</span></span><a class="reference internal" href="_modules/modelo.html#Treeview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelo.Treeview" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p><strong>Clase que interactua con el Treeview</strong></p>
+<p>Grilla de datos donde se encuentran los nadadores que estan la Base de Datos</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="modelo.Treeview.actualizar_treeview">
 <span class="sig-name descname"><span class="pre">actualizar_treeview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mitreview</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelo.html#Treeview.actualizar_treeview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelo.Treeview.actualizar_treeview" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Metodo que actualiza el listado de la grilla</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="modelo.Treeview.scroll_vertical">
 <span class="sig-name descname"><span class="pre">scroll_vertical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelo.html#Treeview.scroll_vertical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelo.Treeview.scroll_vertical" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p><strong>Metodo que controla el scroll vertical de la grilla</strong></p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="modelo.Treeview.seleccion_en_tree">
 <span class="sig-name descname"><span class="pre">seleccion_en_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_dni</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_nombre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_tiempo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelo.html#Treeview.seleccion_en_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelo.Treeview.seleccion_en_tree" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p><strong>Metodo para seleccionar filas en la grilla.</strong></p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="modelo.cerrar_programa">
 <span class="sig-prename descclassname"><span class="pre">modelo.</span></span><span class="sig-name descname"><span class="pre">cerrar_programa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelo.html#cerrar_programa"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelo.cerrar_programa" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p><strong>Funcion para cerrar el programa.</strong></p>
+<p>Cierra la ventana y finaliza la aplicación.</p>
+<p>El usuario deberá confirmar en la ventana de pop up emergente, que efectivamente desea cerrar la aplicación.</p>
+</dd></dl>
 
 </section>
 

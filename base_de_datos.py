@@ -1,12 +1,13 @@
-"""Modulo que controla la conxexion a la base de datos"""
 import sqlite3
 
 class Database:
+    """**Clase principal contiene diferentes metodos que interactuan con la Base de Datos.**"""
     def __init__(self, db_name="alumnos_natacion.db"):
         self.db_name = db_name
         self.con = None
 
     def conexion(self):
+        """**Metodo para abrir la conexion**"""
         try:
             self.con = sqlite3.connect(self.db_name)
             print("Base de Datos conectada.")
@@ -14,6 +15,7 @@ class Database:
             print("Error al conectarse a la Base de Datos: ", e)
 
     def create_table(self):
+        """**Metodo para crear la tabla donde se van a guardar los nadadores**"""
         if self.con is None:
             print("La Conexion a la base de datos no fue establecida")
             return
@@ -30,6 +32,7 @@ class Database:
             print("Error creando tabla:", e)
 
     def close(self):
+        """**Metodo para cerrar la conexion**"""
         if self.con:
             self.con.close()
             print("Conexion a Base de Datos cerrada.")

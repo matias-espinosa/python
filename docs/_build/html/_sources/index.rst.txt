@@ -6,9 +6,11 @@
 Welcome to SwimTracker's documentation!
 =======================================
 
+La aplicación **Swim Tracker** es una herramienta desarrollada con Tkinter en Python que permite manejar información sobre alumnos de natación. This project is under active development.
+
 .. toctree::
    :maxdepth: 4
-   :caption: Contents:
+   :caption: Contenido:
 
    base_de_datos
    controlador

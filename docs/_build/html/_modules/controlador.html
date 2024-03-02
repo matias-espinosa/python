@@ -42,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../base_de_datos.html">base_de_datos module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../controlador.html">controlador module</a></li>
@@ -76,16 +76,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for controlador</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Archivo principal de donde se lanza la App&quot;&quot;&quot;</span>
-
-<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">Tk</span>
+<span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">Tk</span>
 <span class="kn">from</span> <span class="nn">vista</span> <span class="kn">import</span> <span class="n">Ventana</span>
 <span class="kn">from</span> <span class="nn">base_de_datos</span> <span class="kn">import</span> <span class="n">Database</span>
 
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../controlador.html#controlador.main">[docs]</a>
 <span class="k">def</span> <span class="nf">main</span> <span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Funcion principal que trata de crear la base de datos y lanza la ventana de Tkinter&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;**Funcion principal que trata de crear la base de datos y lanza la ventana de Tkinter**&quot;&quot;&quot;</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">Tk</span><span class="p">()</span>
     <span class="n">aplicacion</span> <span class="o">=</span> <span class="n">Ventana</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
     <span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>

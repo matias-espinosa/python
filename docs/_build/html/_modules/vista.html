@@ -42,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../base_de_datos.html">base_de_datos module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../controlador.html">controlador module</a></li>
@@ -76,9 +76,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for vista</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Modulo Vista, donde se encuentra el codigo del GUI Tkinter&quot;&quot;&quot;</span>
-
-<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
 <span class="kn">from</span> <span class="nn">modelo</span> <span class="kn">import</span> <span class="n">cerrar_programa</span>
 <span class="kn">from</span> <span class="nn">modelo</span> <span class="kn">import</span> <span class="n">Treeview</span>
@@ -87,6 +85,7 @@
 <div class="viewcode-block" id="Ventana">
 <a class="viewcode-back" href="../vista.html#vista.Ventana">[docs]</a>
 <span class="k">class</span> <span class="nc">Ventana</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;**Clase principal que arma la ventana de la App**&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">=</span><span class="n">window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objeto_treeview</span> <span class="o">=</span> <span class="n">Treeview</span><span class="p">()</span>

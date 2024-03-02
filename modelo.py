@@ -1,13 +1,17 @@
-"""Modelo  donde se encuentra la mayor parte de la logica de la App. """
 from tkinter import messagebox
 from tkinter import END
 from regex_validations import ValidationUtils
 from base_de_datos import Database
 
 class Nadador():
+    """**Clase principal contiene diferentes metodos que involucran al Nadador.**"""
     def __init__(self) -> None:
         pass
     def alta(self, dni, nombre, tiempo_50_mts, tree):
+        """**Metodo de alta de registro.**\n
+           Permite ingresar datos como DNI, Nombre y Apellido, y el tiempo registrado en pasadas de 50 metros estilo crol en formato MM:SS.\n
+           Esta información se almacena en una base de datos SQLite3.\n
+           El usuario recibe una notificación de alta exitosa en forma de pop up."""
         db = Database()
         self.objeto_treeview = Treeview()
         dni_str = str(dni)
@@ -40,6 +44,10 @@ class Nadador():
             return 1
 
     def borrar(self, tree):
+        """**Metodo para borrar un registro.**\n
+            El usuario puede eliminar registros de la base de datos, habiendo seleccionando una entrada previa.\n
+            Para evitar errores humanos, una validación en forma de pop up se presenta al usuario
+        """
         db = Database()
         valor = tree.selection()
         item = tree.item(valor)
@@ -59,6 +67,8 @@ class Nadador():
 
 
     def modificar(self,dni, nombre, tiempo_50_mts, tree):
+        """**Metodo para modificar un registro**.\n
+        Para evitar errores humanos, una validación en forma de pop up se presenta al usuario"""
         self.objeto_treeview = Treeview()
         db = Database()
         if ValidationUtils.validate_tiempo(tiempo_50_mts):
@@ -83,6 +93,8 @@ class Nadador():
             return 1
 
     def mejor_tiempo(self, mitreview):
+        """**Metodo que nos permite encontrar y mostrar el mejor tiempo registrado.**\n
+        Si hubiera multiples alumnos con el mismo mejor tiempo, entonces se mostraran todos los que compartan dicha categoría."""
         db = Database()
         records = mitreview.get_children()
         for element in records:
@@ -100,9 +112,12 @@ class Nadador():
             mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
 
 class Treeview:
+    """**Clase que interactua con el Treeview**\n
+         Grilla de datos donde se encuentran los nadadores que estan la Base de Datos"""
     def __init__(self) -> None:
         pass
     def actualizar_treeview(self, mitreview):
+        """Metodo que actualiza el listado de la grilla"""
         db = Database()
         records = mitreview.get_children()
         for element in records:
@@ -118,6 +133,7 @@ class Treeview:
 
 
     def seleccion_en_tree(self, event, tree, entry_dni, entry_nombre, entry_tiempo):
+        """**Metodo para seleccionar filas en la grilla.**"""
         fila_seleccionada = tree.focus()  # Obtener el item de Tkinter 'fila'
         valores = tree.item(fila_seleccionada, 'values')  # Obtener los valores de la fila seleccionada
         # Llenar los widgets vacios con la fila seleccionada
@@ -135,9 +151,13 @@ class Treeview:
 
 
     def scroll_vertical(tree,*args):
+        """**Metodo que controla el scroll vertical de la grilla**"""
         tree.yview(*args)
 
 def cerrar_programa(root, tree):
+    """**Funcion para cerrar el programa.**\n
+       Cierra la ventana y finaliza la aplicación.\n
+       El usuario deberá confirmar en la ventana de pop up emergente, que efectivamente desea cerrar la aplicación."""
     result = messagebox.askokcancel("OK o Cancelar", "Esta seguro que desea cerrar el programa?")
     if result == True:
         root.quit()

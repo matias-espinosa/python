@@ -42,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../base_de_datos.html">base_de_datos module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../controlador.html">controlador module</a></li>
@@ -76,12 +76,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for base_de_datos</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Modulo que controla la conxexion a la base de datos&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
 
 <div class="viewcode-block" id="Database">
 <a class="viewcode-back" href="../base_de_datos.html#base_de_datos.Database">[docs]</a>
 <span class="k">class</span> <span class="nc">Database</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;**Clase principal contiene diferentes metodos que interactuan con la Base de Datos.**&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="o">=</span><span class="s2">&quot;alumnos_natacion.db&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db_name</span> <span class="o">=</span> <span class="n">db_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="kc">None</span>
@@ -89,6 +89,7 @@
 <div class="viewcode-block" id="Database.conexion">
 <a class="viewcode-back" href="../base_de_datos.html#base_de_datos.Database.conexion">[docs]</a>
     <span class="k">def</span> <span class="nf">conexion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo para abrir la conexion**&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db_name</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Base de Datos conectada.&quot;</span><span class="p">)</span>
@@ -99,6 +100,7 @@
 <div class="viewcode-block" id="Database.create_table">
 <a class="viewcode-back" href="../base_de_datos.html#base_de_datos.Database.create_table">[docs]</a>
     <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo para crear la tabla donde se van a guardar los nadadores**&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">con</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;La Conexion a la base de datos no fue establecida&quot;</span><span class="p">)</span>
             <span class="k">return</span>
@@ -118,6 +120,7 @@
 <div class="viewcode-block" id="Database.close">
 <a class="viewcode-back" href="../base_de_datos.html#base_de_datos.Database.close">[docs]</a>
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**Metodo para cerrar la conexion**&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">con</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Conexion a Base de Datos cerrada.&quot;</span><span class="p">)</span></div>
