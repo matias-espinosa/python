@@ -11,11 +11,11 @@ sys.path.insert(0, os.path.abspath(".."))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'SwimTracker'
-copyright = '2024, Matias'
-author = 'Matias'
+copyright = '2024, Espinosa & Toselli'
+author = 'Espinosa & Toselli'
 
-version = '0.0.1'
-release = '0.0.1'
+version = '1.0.0'
+release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
