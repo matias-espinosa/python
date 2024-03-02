@@ -1,3 +1,4 @@
+"""Modulo de validacion de datos en campos usando Expresiones Regulares"""
 import re
 
 class ValidationUtils():

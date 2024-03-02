@@ -1,3 +1,5 @@
+"""Modulo Vista, donde se encuentra el codigo del GUI Tkinter"""
+
 from tkinter import *
 from tkinter import ttk
 from modelo import cerrar_programa

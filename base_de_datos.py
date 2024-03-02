@@ -1,3 +1,4 @@
+"""Modulo que controla la conxexion a la base de datos"""
 import sqlite3
 
 class Database:

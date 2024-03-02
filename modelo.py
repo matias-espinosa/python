@@ -1,3 +1,4 @@
+"""Modelo  donde se encuentra la mayor parte de la logica de la App. """
 from tkinter import messagebox
 from tkinter import END
 from regex_validations import ValidationUtils
