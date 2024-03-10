@@ -3,6 +3,8 @@ from tkinter import ttk
 from modelo import cerrar_programa
 from modelo import Treeview
 from modelo import Nadador
+import os
+
 
 class Ventana:
     """**Clase principal que arma la ventana de la App**"""
@@ -11,18 +13,20 @@ class Ventana:
         self.objeto_treeview = Treeview()
         self.objeto_nadador = Nadador()
 
-        self.img = PhotoImage(file=r'C:\Users\Sik\swim_tracker\img\swim-cap_5155580.png')
+        #----------  ICONO y TITULO DE LA VENTANA  -----------
+        self.script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.img_path = os.path.join(self.script_dir, 'img', 'swim-cap_5155580.png')
+        self.img = PhotoImage(file=self.img_path)
         self.root.iconphoto(True, self.img)
-
         self.root.title("Swim Tracker")
         self.root.configure(bg="#c5e1ff")
 
         fuente_titulo = ("Arial", 16, "bold")
-        fuente_campos = ("Calibri", 11)
-
         self.titulo = Label(self.root,padx=10, anchor="w", font=fuente_titulo, text="Guarda tus tiempos!", bg="#001c3b", fg="white", height=2, width=60)
         self.titulo.grid(row=0, column=0, columnspan=4, sticky=W+E+N+S)
 
+        #----------  CAMPOS  -----------
+        fuente_campos = ("Calibri", 11)
         self.dni = Label(self.root, font=fuente_campos, bg="#c5e1ff",text="DNI (números, sin puntos)")
         self.dni.grid(row=2, column=0, padx=10, sticky=W)
         self.nombre_apellido=Label(self.root, font=fuente_campos, bg="#c5e1ff", text="Nombre y Apellido")
@@ -30,7 +34,7 @@ class Ventana:
         self.tiempo_50=Label(self.root, font=fuente_campos,  bg="#c5e1ff", text="50 mts Crol (MM:SS)")
         self.tiempo_50.grid(row=4, padx=10, column=0, sticky=W)
 
-        # Defino variables para tomar valores de campos de entrada
+        # Variables para tomar valores de los campos
         self.dni_value, self.nombre_value, self.tiempo_value = StringVar(), StringVar(), StringVar()
 
         w_ancho = 31
@@ -42,6 +46,7 @@ class Ventana:
         self.entry_tiempo = Entry(self.root, textvariable = self.tiempo_value, width = w_ancho)
         self.entry_tiempo.grid(row = 4, padx=10, column = 2, sticky=E, columnspan=2)
 
+        #----------  TREEVIEW  -----------
         self.tree = ttk.Treeview(self.root, selectmode="browse")
         self.root.geometry("420x530")
 
@@ -68,13 +73,13 @@ class Ventana:
 
         self.tree.bind("<<TreeviewSelect>>", lambda event: self.objeto_treeview.seleccion_en_tree(event, self.tree, self.entry_dni, self.entry_nombre, self.entry_tiempo))
 
+        #----------  SCROLL BAR  -----------
         scrollbar = ttk.Scrollbar(self.root, orient='vertical', command=self.tree.yview)
         scrollbar.grid(row=11, column=3, padx=10,sticky='ens')
         self.tree.configure(yscrollcommand=scrollbar.set)
         scrollbar.config(command=lambda *args: self.objeto_treeview.scroll_vertical(self.tree, *args))
 
         #----------  FUNCIONES AUXILIARES   -----------
-
         def limpiar(dni_value, nombre_value, tiempo_value, entry_dni, tree):
             entry_dni.configure(state='normal')
             dni_value.set("")
@@ -91,9 +96,7 @@ class Ventana:
             if retorno == "Modificado":
                 limpiar(self.dni_value, self.nombre_value, self.tiempo_value, self.entry_dni, self.tree)
 
-
         #----------  BOTONES: USAN LAS FUNCIONES AUXILIARES   -----------
-
         button_width = 15
         button_frame_top = Frame(self.root, bg="#c5e1ff")
         button_frame_top.grid(row=9, column=0, columnspan=4)
