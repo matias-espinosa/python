@@ -16,28 +16,31 @@ class Nadador():
         self.objeto_treeview = Treeview()
         dni_str = str(dni)
         if ValidationUtils.validate_dni(dni_str):
-            if ValidationUtils.validate_tiempo(tiempo_50_mts):
-                sql = "SELECT dni FROM alumnos WHERE dni=?"
-                nuevo_dni = (dni,)
-                db.conexion()
-                cursor = db.con.cursor()
-                datos = cursor.execute(sql, nuevo_dni)
-                resultado = datos.fetchall()
-                if  resultado == []:
-                    data=(dni, nombre, tiempo_50_mts)
-                    sql="INSERT INTO alumnos(dni, nombre, tiempo_50_mts) VALUES(?, ?, ?)"
-                    cursor.execute(sql, data)
-                    db.con.commit()
-                    self.objeto_treeview.actualizar_treeview(tree)
-                    messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
-                    #limpiar(dni, nombre, tiempo_50_mts, entry_dni ,tree)
-                    db.con.close
-                    return "Alta"
+            if ValidationUtils.validate_fullname(nombre):
+                if ValidationUtils.validate_tiempo(tiempo_50_mts):
+                    sql = "SELECT dni FROM alumnos WHERE dni=?"
+                    nuevo_dni = (dni,)
+                    db.conexion()
+                    cursor = db.con.cursor()
+                    datos = cursor.execute(sql, nuevo_dni)
+                    resultado = datos.fetchall()
+                    if  resultado == []:
+                        data=(dni, nombre, tiempo_50_mts)
+                        sql="INSERT INTO alumnos(dni, nombre, tiempo_50_mts) VALUES(?, ?, ?)"
+                        cursor.execute(sql, data)
+                        db.con.commit()
+                        self.objeto_treeview.actualizar_treeview(tree)
+                        messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
+                        db.con.close
+                        return "Alta"
+                    else:
+                        messagebox.showinfo("DNI duplicado", f'El DNI: {dni} ya se encuentra en la base de datos.\n\nModifique el tiempo o nombre del alumno existente.')
+                        return 1
                 else:
-                    messagebox.showinfo("DNI duplicado", f'El DNI: {dni} ya se encuentra en la base de datos.\n\nModifique el tiempo o nombre del alumno existente.')
+                    messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
                     return 1
             else:
-                messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
+                messagebox.showerror("Error en 'Nombre y Apellido'", f'Ingrese un nombre y apellido validos.\nSolo se admiten letras (con o sin tilde), con el formato Nombre espacio Apellido.\nEjemplo: Juan Pérez')
                 return 1
         else:
             messagebox.showerror("Error DNI", "Ingrese un DNI valido.\nEjemplo: 30123456).")

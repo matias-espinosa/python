@@ -11,6 +11,8 @@ class Ventana:
         self.objeto_treeview = Treeview()
         self.objeto_nadador = Nadador()
 
+        self.img = PhotoImage(file=r'C:\Users\Sik\swim_tracker\img\swim-cap_5155580.png')
+        self.root.iconphoto(True, self.img)
 
         self.root.title("Swim Tracker")
         self.root.configure(bg="#c5e1ff")
@@ -18,7 +20,7 @@ class Ventana:
         fuente_titulo = ("Arial", 16, "bold")
         fuente_campos = ("Calibri", 11)
 
-        self.titulo = Label(self.root,padx=10, anchor="w", font=fuente_titulo, text="Swim Tracker", bg="#001c3b", fg="white", height=2, width=60)
+        self.titulo = Label(self.root,padx=10, anchor="w", font=fuente_titulo, text="Guarda tus tiempos!", bg="#001c3b", fg="white", height=2, width=60)
         self.titulo.grid(row=0, column=0, columnspan=4, sticky=W+E+N+S)
 
         self.dni = Label(self.root, font=fuente_campos, bg="#c5e1ff",text="DNI (números, sin puntos)")
@@ -29,7 +31,7 @@ class Ventana:
         self.tiempo_50.grid(row=4, padx=10, column=0, sticky=W)
 
         # Defino variables para tomar valores de campos de entrada
-        self.dni_value, self.nombre_value, self.tiempo_value = IntVar(), StringVar(), StringVar()
+        self.dni_value, self.nombre_value, self.tiempo_value = StringVar(), StringVar(), StringVar()
 
         w_ancho = 31
 
