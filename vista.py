@@ -86,10 +86,23 @@ class Ventana:
             nombre_value.set("")
             tiempo_value.set("")
 
-        def alta_vista ():
-            retorno=self.objeto_nadador.alta(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
+        #def alta_vista ():
+        #    retorno=self.objeto_nadador.alta(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
+         #   if retorno == "Alta":
+           #     limpiar(self.dni_value, self.nombre_value, self.tiempo_value, self.entry_dni, self.tree)
+
+        def alta_vista():
+            retorno = self.objeto_nadador.alta(
+                self.dni_value.get(),
+                self.nombre_value.get(),
+                self.tiempo_value.get(),
+                self.tree
+            )
             if retorno == "Alta":
                 limpiar(self.dni_value, self.nombre_value, self.tiempo_value, self.entry_dni, self.tree)
+
+        def borar_vista ():
+            retorno=self.objeto_nadador.borrar(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
 
         def modificar_vista ():
             retorno=self.objeto_nadador.modificar(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
@@ -115,7 +128,7 @@ class Ventana:
         boton_modificar=Button(button_frame_top, text="Modificar tiempo", width=button_width, command=lambda:modificar_vista())
         boton_modificar.grid(row=9, column=2, padx=12)
 
-        boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:self.objeto_nadador.borrar(self.tree))
+        boton_borrar=Button(button_frame_top, text="Borrar tiempo", width=button_width, command=lambda:borar_vista())
         boton_borrar.grid(row=9, column=1, padx=12)
 
         boton_mejor_tiempo=Button(button_frame_bottom, text="Mejor tiempo", width=button_width, command=lambda:self.objeto_nadador.mejor_tiempo(self.tree))

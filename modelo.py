@@ -2,11 +2,13 @@ from tkinter import messagebox
 from tkinter import END
 from regex_validations import ValidationUtils
 from base_de_datos import Database
+from decoradores import log_to_file
 
 class Nadador():
     """**Clase principal contiene diferentes metodos que involucran al Nadador.**"""
     def __init__(self) -> None:
         pass
+    @log_to_file('CRUD.log', "{now}: Alta de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
     def alta(self, dni, nombre, tiempo_50_mts, tree):
         """**Metodo de alta de registro.**\n
            Permite ingresar datos como DNI, Nombre y Apellido, y el tiempo registrado en pasadas de 50 metros estilo crol en formato MM:SS.\n
@@ -46,7 +48,8 @@ class Nadador():
             messagebox.showerror("Error DNI", "Ingrese un DNI valido.\nEjemplo: 30123456).")
             return 1
 
-    def borrar(self, tree):
+    @log_to_file('CRUD.log', "{now}: Baja de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
+    def borrar(self, dni, nombre, tiempo_50_mts, tree):
         """**Metodo para borrar un registro.**\n
             El usuario puede eliminar registros de la base de datos, habiendo seleccionando una entrada previa.\n
             Para evitar errores humanos, una validación en forma de pop up se presenta al usuario
@@ -67,7 +70,7 @@ class Nadador():
             db.con.commit()
             tree.delete(valor)
             db.con.close()
-
+    @log_to_file('CRUD.log', "{now}: Modificacion de: {nombre}, con DNI: {dni} y nuevo tiempo: {tiempo_50_mts}\n")
 
     def modificar(self,dni, nombre, tiempo_50_mts, tree):
         """**Metodo para modificar un registro**.\n
