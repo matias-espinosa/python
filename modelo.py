@@ -2,13 +2,14 @@ from tkinter import messagebox
 from tkinter import END
 from regex_validations import ValidationUtils
 from base_de_datos import Database
-from decoradores import log_to_file
+from decoradores import log_en_archivo
+from observador import Sujeto
 
-class Nadador():
+class Nadador(Sujeto):
     """**Clase principal contiene diferentes metodos que involucran al Nadador.**"""
     def __init__(self) -> None:
-        pass
-    @log_to_file('CRUD.log', "{now}: Alta de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
+        super().__init__()
+    @log_en_archivo('CRUD.log', "{now}: Alta de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
     def alta(self, dni, nombre, tiempo_50_mts, tree):
         """**Metodo de alta de registro.**\n
            Permite ingresar datos como DNI, Nombre y Apellido, y el tiempo registrado en pasadas de 50 metros estilo crol en formato MM:SS.\n
@@ -31,6 +32,7 @@ class Nadador():
                         sql="INSERT INTO alumnos(dni, nombre, tiempo_50_mts) VALUES(?, ?, ?)"
                         cursor.execute(sql, data)
                         db.con.commit()
+                        self.notificar('alta', dni, nombre, tiempo_50_mts)
                         self.objeto_treeview.actualizar_treeview(tree)
                         messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
                         db.con.close
@@ -48,12 +50,13 @@ class Nadador():
             messagebox.showerror("Error DNI", "Ingrese un DNI valido.\nEjemplo: 30123456).")
             return 1
 
-    @log_to_file('CRUD.log', "{now}: Baja de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
+    @log_en_archivo('CRUD.log', "{now}: Baja de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
     def borrar(self, dni, nombre, tiempo_50_mts, tree):
         """**Metodo para borrar un registro.**\n
             El usuario puede eliminar registros de la base de datos, habiendo seleccionando una entrada previa.\n
             Para evitar errores humanos, una validación en forma de pop up se presenta al usuario
         """
+        self.notificar(dni, nombre)
         db = Database()
         valor = tree.selection()
         item = tree.item(valor)
@@ -68,9 +71,10 @@ class Nadador():
             sql = "DELETE FROM alumnos WHERE id = ?;"
             cursor.execute(sql, data)
             db.con.commit()
+            self.notificar('baja', dni, nombre, tiempo_50_mts)
             tree.delete(valor)
             db.con.close()
-    @log_to_file('CRUD.log', "{now}: Modificacion de: {nombre}, con DNI: {dni} y nuevo tiempo: {tiempo_50_mts}\n")
+    @log_en_archivo('CRUD.log', "{now}: Modificacion de: {nombre}, con DNI: {dni} y nuevo tiempo: {tiempo_50_mts}\n")
 
     def modificar(self,dni, nombre, tiempo_50_mts, tree):
         """**Metodo para modificar un registro**.\n
@@ -91,6 +95,7 @@ class Nadador():
                 sql="UPDATE alumnos SET dni=?, nombre=?, tiempo_50_mts=? WHERE id=?;"
                 cursor.execute(sql, data)
                 db.con.commit()
+                self.notificar('modificar', dni, nombre, tiempo_50_mts)
                 db.con.close()
                 self.objeto_treeview.actualizar_treeview(tree)
                 return "Modificado"

@@ -1,7 +1,7 @@
 import datetime
 import functools
 
-def log_to_file(file_path, log_message_template):
+def log_en_archivo(file_path, log_message_template):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
