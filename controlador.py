@@ -4,38 +4,6 @@ from modelo import Treeview
 from base_de_datos import Database
 import observador
 
-''''
-def main ():
-    """**Funcion principal que trata de crear la base de datos y lanza la ventana de Tkinter**"""
-    root = Tk()
-    aplicacion = Ventana(root)
-    root.mainloop()
-    db = Database()
-    db.conexion()
-    db.create_table()
-    db.close()
-    observadores.ConcreteObserverA(aplicacion.objeto_nadador)
-
-if __name__ == "__main__":
-    main()
-
-
-def main ():
-    """**Funcion principal que trata de crear la base de datos y lanza la ventana de Tkinter**"""
-    root = Tk()
-    aplicacion = Ventana(root)
-    root.mainloop()
-    db = Database()
-    db.conexion()
-    db.create_table()
-    db.close()
-    observadores.ConcreteObserverA(aplicacion.objeto_nadador)
-
-if __name__ == "__main__":
-    main()
-'''
-# from modelo import *
-
 class Controller:
     """**Funcion principal que trata de crear la base de datos y lanzar la ventana de Tkinter**"""
 

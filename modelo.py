@@ -4,12 +4,14 @@ from regex_validations import ValidationUtils
 from base_de_datos import Database
 from decoradores import log_en_archivo
 from observador import Sujeto
+from cliente import alta_server_log
+import subprocess
 
 class Nadador(Sujeto):
     """**Clase principal contiene diferentes metodos que involucran al Nadador.**"""
     def __init__(self) -> None:
         super().__init__()
-    @log_en_archivo('CRUD.log', "{now}: Alta de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
+    @log_en_archivo('CRUD.log', "{now}: Alta Decorador de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
     def alta(self, dni, nombre, tiempo_50_mts, tree):
         """**Metodo de alta de registro.**\n
            Permite ingresar datos como DNI, Nombre y Apellido, y el tiempo registrado en pasadas de 50 metros estilo crol en formato MM:SS.\n
@@ -33,6 +35,7 @@ class Nadador(Sujeto):
                         cursor.execute(sql, data)
                         db.con.commit()
                         self.notificar('alta', dni, nombre, tiempo_50_mts)
+                        alta_server_log(dni, nombre, tiempo_50_mts)
                         self.objeto_treeview.actualizar_treeview(tree)
                         messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
                         db.con.close
@@ -50,7 +53,7 @@ class Nadador(Sujeto):
             messagebox.showerror("Error DNI", "Ingrese un DNI valido.\nEjemplo: 30123456).")
             return 1
 
-    @log_en_archivo('CRUD.log', "{now}: Baja de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
+    @log_en_archivo('CRUD.log', "{now}: Baja Decorador de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
     def borrar(self, dni, nombre, tiempo_50_mts, tree):
         """**Metodo para borrar un registro.**\n
             El usuario puede eliminar registros de la base de datos, habiendo seleccionando una entrada previa.\n
@@ -74,8 +77,8 @@ class Nadador(Sujeto):
             self.notificar('baja', dni, nombre, tiempo_50_mts)
             tree.delete(valor)
             db.con.close()
-    @log_en_archivo('CRUD.log', "{now}: Modificacion de: {nombre}, con DNI: {dni} y nuevo tiempo: {tiempo_50_mts}\n")
 
+    @log_en_archivo('CRUD.log', "{now}: Modificacion Decorador de: {nombre}, con DNI: {dni} y nuevo tiempo: {tiempo_50_mts}\n")
     def modificar(self,dni, nombre, tiempo_50_mts, tree):
         """**Metodo para modificar un registro**.\n
         Para evitar errores humanos, una validación en forma de pop up se presenta al usuario"""
@@ -145,9 +148,9 @@ class Treeview:
 
     def seleccion_en_tree(self, event, tree, entry_dni, entry_nombre, entry_tiempo):
         """**Metodo para seleccionar filas en la grilla.**"""
-        fila_seleccionada = tree.focus()  # Obtener el item de Tkinter 'fila'
-        valores = tree.item(fila_seleccionada, 'values')  # Obtener los valores de la fila seleccionada
-        # Llenar los widgets vacios con la fila seleccionada
+        fila_seleccionada = tree.focus()
+        valores = tree.item(fila_seleccionada, 'values')
+
         entry_dni.configure(state='normal')
         entry_nombre.configure(state='normal')
         entry_tiempo.configure(state='normal')
@@ -164,6 +167,19 @@ class Treeview:
     def scroll_vertical(tree,*args):
         """**Metodo que controla el scroll vertical de la grilla**"""
         tree.yview(*args)
+
+class Servidor:
+    """**Clase que interactua con el Servidor**\n"""
+    def __init__(self) -> None:
+        pass
+
+    def check_server_status(self):
+        command = 'netstat -ano | findstr :9999'
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        if result.stdout:
+            messagebox.showinfo("Status Servidor", "El Servidor esta corriendo.")
+        else:
+            messagebox.showinfo("Server Servidor", "El Servidor NO esta corriendo")
 
 def cerrar_programa(root, tree):
     """**Funcion para cerrar el programa.**\n

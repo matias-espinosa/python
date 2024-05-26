@@ -3,8 +3,12 @@ from tkinter import ttk
 from modelo import cerrar_programa
 from modelo import Treeview
 from modelo import Nadador
+from modelo import Servidor
 import os
-
+import sys
+from pathlib import Path
+import threading
+import subprocess
 
 class Ventana:
     """**Clase principal que arma la ventana de la App**"""
@@ -12,6 +16,14 @@ class Ventana:
         self.root=window
         self.objeto_treeview = Treeview()
         self.objeto_nadador = Nadador()
+        self.objeto_servidor = Servidor()
+
+        #----------  AGREGO RUTA A SERVIDOR  -----------
+        global theproc
+        theproc = None
+
+        self.raiz = Path(__file__).resolve().parent
+        self.ruta_server = os.path.join(self.raiz, 'src', 'servidor.py')
 
         #----------  ICONO y TITULO DE LA VENTANA  -----------
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -86,11 +98,6 @@ class Ventana:
             nombre_value.set("")
             tiempo_value.set("")
 
-        #def alta_vista ():
-        #    retorno=self.objeto_nadador.alta(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
-         #   if retorno == "Alta":
-           #     limpiar(self.dni_value, self.nombre_value, self.tiempo_value, self.entry_dni, self.tree)
-
         def alta_vista():
             retorno = self.objeto_nadador.alta(
                 self.dni_value.get(),
@@ -115,6 +122,8 @@ class Ventana:
         button_frame_top.grid(row=9, column=0, columnspan=4)
         button_frame_bottom = Frame(self.root, bg="#c5e1ff")
         button_frame_bottom.grid(row=13, column=0, columnspan=4)
+        button_frame_second_bottom = Frame(self.root, bg="#c5e1ff")
+        button_frame_second_bottom.grid(row=14, column=0, columnspan=4)
 
         boton_cerrar=Button(self.root, text="Cerrar Aplicación", width=button_width, command=lambda:cerrar_programa(self.root, self.tree))
         boton_cerrar.grid(row=0, column=3, sticky=E, padx=10)
@@ -136,3 +145,37 @@ class Ventana:
 
         boton_consulta=Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda:self.objeto_treeview.actualizar_treeview(self.tree))
         boton_consulta.grid(row=13, column=1, padx=12)
+
+        boton_prender=Button(button_frame_second_bottom, text="Prender Server",width=button_width, command=lambda:self.try_connection())
+        boton_prender.grid(row=14, column=1,padx=12)
+
+        boton_apagar=Button(button_frame_second_bottom,text="Apagar Server", width=button_width,command=lambda:self.stop_server())
+        boton_apagar.grid(row=14, column=3,padx=12)
+
+        boton_check = Button(button_frame_second_bottom, text="Check Server Status", width=button_width, command=lambda: self.objeto_servidor.check_server_status())
+        boton_check.grid(row=14, column=5, padx=12)
+
+
+    def try_connection(self):
+        global theproc
+        if theproc is not None:
+            theproc.kill()
+        threading.Thread(target=self.lanzar_servidor, args=(True,), daemon=True).start()
+
+    def lanzar_servidor(self, var):
+        el_path = self.ruta_server
+        print(f"Lanzando servidor con path: {el_path}")
+        if var:
+            global theproc
+            theproc = subprocess.Popen([sys.executable, el_path])
+        else:
+            print("Servidor no inicializado porque var es False")
+
+    def stop_server(self):
+        global theproc
+        if theproc is not None:
+            print("Apangando Servidor")
+            theproc.kill()
+            theproc = None
+        else:
+            print("No se encontro proceso de Servidor")
