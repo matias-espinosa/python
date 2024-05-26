@@ -5,9 +5,6 @@ class Sujeto:
     def agregar(self, obj):
         self.observadores.append(obj)
 
-    #def quitar(self, obj):
-    #    pass
-
     def notificar(self, tipo_notificacion, *args):
         for observador in self.observadores:
             observador.update(tipo_notificacion, *args)
@@ -24,7 +21,7 @@ class AltaRegistro(Observador):
     def update(self, tipo_notificacion, *args):
         if tipo_notificacion == 'alta':
             dni, nombre, tiempo_50_mts = args
-            print(f"Alta de registro: {nombre}, DNI:{dni}, tiempo de 50 metros crol {tiempo_50_mts}")
+            print(f"Alta de registro Observador: {nombre}, DNI:{dni}, tiempo de 50 metros crol {tiempo_50_mts}")
 
 class ModificacionRegistro(Observador):
     def __init__(self, obj):
@@ -34,7 +31,7 @@ class ModificacionRegistro(Observador):
     def update(self, tipo_notificacion, *args):
         if tipo_notificacion == 'modificar':
             dni, nombre, tiempo_50_mts = args
-            print(f"El registro ha sido modificado: {nombre}, DNI: {dni}, tiempo de 50 metros crol: {tiempo_50_mts}")
+            print(f"El registro ha sido modificado Observador: {nombre}, DNI: {dni}, tiempo de 50 metros crol: {tiempo_50_mts}")
 
 class BajaRegistro(Observador):
     def __init__(self, obj):
@@ -44,4 +41,4 @@ class BajaRegistro(Observador):
     def update(self, tipo_notificacion, *args):
         if tipo_notificacion == 'baja':
             dni, nombre, tiempo_50_mts = args
-            print(f"El registro ha sido eliminado: {nombre}, DNI: {dni}")
+            print(f"El registro ha sido eliminado Observador: {nombre}, DNI: {dni}")

@@ -1,0 +1,2 @@
+2024-05-26 20:36:56.981671: Alta con Server prendido: DNI=22384765, Name=AAAAAAAAA, Time=06:23
+2024-05-26 20:45:52.279576: Alta con Server prendido: DNI=75983222, Name=qwd, Time=32:00
