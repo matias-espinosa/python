@@ -1,2 +1,10 @@
 2024-05-26 20:36:56.981671: Alta con Server prendido: DNI=22384765, Name=AAAAAAAAA, Time=06:23
 2024-05-26 20:45:52.279576: Alta con Server prendido: DNI=75983222, Name=qwd, Time=32:00
+2024-05-26 20:52:11.225845: Alta con Server prendido: DNI=21384763, Name=qwd qdw, Time=12:23
+2024-05-26 21:14:12.189192: Modificar con Server prendido: DNI=75983222, Name=qwdwqdrre, New Time=32:00
+2024-05-26 21:14:17.612577: Borrar con Server prendido: DNI=21384763, Name=qwd qdw
+2024-05-26 21:18:20.409809: Alta con Server prendido: DNI=3388772, Name=qwd, Time=12:12
+2024-05-26 21:18:28.085408: Modificar con Server prendido: DNI=75983222, Name=qwdwqdrreqwd, New Time=32:00
+2024-05-26 21:18:32.588051: Borrar con Server prendido: DNI=31223444, Name=qwe
+2024-05-26 21:20:11.460595: Borrar con Server prendido: DNI=34223123, Name=qwd
+2024-05-26 21:20:30.479974: Alta con Server prendido: DNI=12998323, Name=qwed wdwq, Time=12:12
