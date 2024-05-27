@@ -5,7 +5,13 @@ from base_de_datos import Database
 from decoradores import log_en_archivo
 from observador import Sujeto
 from cliente import alta_server_log
+from cliente import modificar_server_log
+from cliente import borrar_server_log
 import subprocess
+import threading
+import sys
+from pathlib import Path
+import os
 
 class Nadador(Sujeto):
     """**Clase principal contiene diferentes metodos que involucran al Nadador.**"""
@@ -59,7 +65,6 @@ class Nadador(Sujeto):
             El usuario puede eliminar registros de la base de datos, habiendo seleccionando una entrada previa.\n
             Para evitar errores humanos, una validación en forma de pop up se presenta al usuario
         """
-        self.notificar(dni, nombre)
         db = Database()
         valor = tree.selection()
         item = tree.item(valor)
@@ -75,6 +80,7 @@ class Nadador(Sujeto):
             cursor.execute(sql, data)
             db.con.commit()
             self.notificar('baja', dni, nombre, tiempo_50_mts)
+            borrar_server_log(dni, nombre)
             tree.delete(valor)
             db.con.close()
 
@@ -99,6 +105,7 @@ class Nadador(Sujeto):
                 cursor.execute(sql, data)
                 db.con.commit()
                 self.notificar('modificar', dni, nombre, tiempo_50_mts)
+                modificar_server_log(dni, nombre, tiempo_50_mts)
                 db.con.close()
                 self.objeto_treeview.actualizar_treeview(tree)
                 return "Modificado"
@@ -171,7 +178,11 @@ class Treeview:
 class Servidor:
     """**Clase que interactua con el Servidor**\n"""
     def __init__(self) -> None:
-        pass
+        global theproc
+        theproc = None
+
+        self.raiz = Path(__file__).resolve().parent
+        self.ruta_server = os.path.join(self.raiz, 'src', 'servidor.py')
 
     def check_server_status(self):
         command = 'netstat -ano | findstr :9999'
@@ -180,6 +191,29 @@ class Servidor:
             messagebox.showinfo("Status Servidor", "El Servidor esta corriendo.")
         else:
             messagebox.showinfo("Server Servidor", "El Servidor NO esta corriendo")
+    def try_connection(self):
+        global theproc
+        if theproc is not None:
+            theproc.kill()
+        threading.Thread(target=self.lanzar_servidor, args=(True,), daemon=True).start()
+
+    def lanzar_servidor(self, var):
+        el_path = self.ruta_server
+        print(f"Lanzando servidor con path: {el_path}")
+        if var:
+            global theproc
+            theproc = subprocess.Popen([sys.executable, el_path])
+        else:
+            print("Servidor no inicializado porque var es False")
+
+    def stop_server(self):
+        global theproc
+        if theproc is not None:
+            print("Apangando Servidor")
+            theproc.kill()
+            theproc = None
+        else:
+            print("No se encontro proceso de Servidor")
 
 def cerrar_programa(root, tree):
     """**Funcion para cerrar el programa.**\n

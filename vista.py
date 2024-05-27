@@ -5,10 +5,6 @@ from modelo import Treeview
 from modelo import Nadador
 from modelo import Servidor
 import os
-import sys
-from pathlib import Path
-import threading
-import subprocess
 
 class Ventana:
     """**Clase principal que arma la ventana de la App**"""
@@ -17,13 +13,6 @@ class Ventana:
         self.objeto_treeview = Treeview()
         self.objeto_nadador = Nadador()
         self.objeto_servidor = Servidor()
-
-        #----------  AGREGO RUTA A SERVIDOR  -----------
-        global theproc
-        theproc = None
-
-        self.raiz = Path(__file__).resolve().parent
-        self.ruta_server = os.path.join(self.raiz, 'src', 'servidor.py')
 
         #----------  ICONO y TITULO DE LA VENTANA  -----------
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -146,36 +135,11 @@ class Ventana:
         boton_consulta=Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda:self.objeto_treeview.actualizar_treeview(self.tree))
         boton_consulta.grid(row=13, column=1, padx=12)
 
-        boton_prender=Button(button_frame_second_bottom, text="Prender Server",width=button_width, command=lambda:self.try_connection())
+        boton_prender=Button(button_frame_second_bottom, text="Prender Server",width=button_width, command=lambda:self.objeto_servidor.try_connection())
         boton_prender.grid(row=14, column=1,padx=12)
 
-        boton_apagar=Button(button_frame_second_bottom,text="Apagar Server", width=button_width,command=lambda:self.stop_server())
+        boton_apagar=Button(button_frame_second_bottom,text="Apagar Server", width=button_width,command=lambda:self.objeto_servidor.stop_server())
         boton_apagar.grid(row=14, column=3,padx=12)
 
         boton_check = Button(button_frame_second_bottom, text="Check Server Status", width=button_width, command=lambda: self.objeto_servidor.check_server_status())
         boton_check.grid(row=14, column=5, padx=12)
-
-
-    def try_connection(self):
-        global theproc
-        if theproc is not None:
-            theproc.kill()
-        threading.Thread(target=self.lanzar_servidor, args=(True,), daemon=True).start()
-
-    def lanzar_servidor(self, var):
-        el_path = self.ruta_server
-        print(f"Lanzando servidor con path: {el_path}")
-        if var:
-            global theproc
-            theproc = subprocess.Popen([sys.executable, el_path])
-        else:
-            print("Servidor no inicializado porque var es False")
-
-    def stop_server(self):
-        global theproc
-        if theproc is not None:
-            print("Apangando Servidor")
-            theproc.kill()
-            theproc = None
-        else:
-            print("No se encontro proceso de Servidor")
