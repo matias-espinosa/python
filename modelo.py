@@ -153,20 +153,25 @@ class Treeview:
             mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
 
 
-    def seleccion_en_tree(self, event, tree, entry_dni, entry_nombre, entry_tiempo):
+    def seleccion_en_tree(self, event, tree, entry_dni, entry_nombre, entry_apellido, entry_tiempo):
         """**Metodo para seleccionar filas en la grilla.**"""
         fila_seleccionada = tree.focus()
         valores = tree.item(fila_seleccionada, 'values')
 
         entry_dni.configure(state='normal')
         entry_nombre.configure(state='normal')
+        entry_apellido.configure(state='normal')
+        #entry_estilo.configure(state='normal')
         entry_tiempo.configure(state='normal')
         entry_dni.delete(0, END)
         entry_nombre.delete(0, END)
+        entry_apellido.delete(0, END)
         entry_tiempo.delete(0, END)
         if valores:
             entry_dni.insert(0, valores[0])
             entry_nombre.insert(0, valores[1])
+            #entry_apellido.insert(0, valores[2])
+            #entry_estilo.insert(0, valores[2])
             entry_tiempo.insert(0, valores[2])
             entry_dni.configure(state='disabled')
 
