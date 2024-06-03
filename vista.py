@@ -45,7 +45,12 @@ class Ventana:
         #eparator.grid(row=8, column=0, columnspan=5, sticky="ew", pady=5)
 
         # VARIABLES FOR ENTRY
-        self.dni_value, self.nombre_value, self.apellido_value, self.tiempo_value = StringVar(),StringVar(),StringVar(), StringVar()
+        self.dni_value = StringVar()
+        self.nombre_value = StringVar()
+        self.apellido_value = StringVar()
+        self.estilo_value = StringVar()
+        self.distancia_value = StringVar()
+        self.tiempo_value = StringVar()
 
         # ENTRY & PLACEHOLDERS
         self.placeholders = {
@@ -81,10 +86,10 @@ class Ventana:
         self.distancias = ["50", "100", "200", "500", "1000", "2000"]
         self.distancias_default = "Distancia"
 
-        self.combo_estilos = ttk.Combobox(self.root, values=self.estilos, width=10, state="readonly")
+        self.combo_estilos = ttk.Combobox(self.root, textvariable=self.estilo_value, values=self.estilos, width=10, state="readonly")
         self.combo_estilos.grid(row=5, column=1, padx=5,pady=3, sticky=W)
 
-        self.combo_distancias = ttk.Combobox(self.root, values=self.distancias, width=10, state="readonly")
+        self.combo_distancias = ttk.Combobox(self.root, textvariable=self.distancia_value, values=self.distancias, width=10, state="readonly")
         self.combo_distancias.grid(row=5, column=2, padx=5,pady=3, sticky=E)
 
         self.combo_estilos.set(self.estilo_default)
@@ -111,22 +116,22 @@ class Ventana:
 
         # TREEVIEW
         self.tree = ttk.Treeview(self.root, selectmode="browse")
-        self.root.geometry("508x600")
+        self.root.geometry("427x600")
 
         self.tree["columns"] = ("col1", "col2", "col3", "col4", "col5", "col6")
-        self.tree.column("#0", width=50, minwidth=50, anchor=W)
-        self.tree.column("col1", width=60, minwidth=60)
+        self.tree.column("#0", width=28, minwidth=28, anchor=W)
+        self.tree.column("col1", width=56, minwidth=56)
         self.tree.column("col2", width=73, minwidth=73)
         self.tree.column("col3", width=73, minwidth=73)
-        self.tree.column("col4", width=73, minwidth=73)
-        self.tree.column("col5", width=73, minwidth=73)
-        self.tree.column("col6", width=60, minwidth=60)
+        self.tree.column("col4", width=57, minwidth=57)
+        self.tree.column("col5", width=45, minwidth=45)
+        self.tree.column("col6", width=48, minwidth=48)
         self.tree.heading("#0", text="ID")
         self.tree.heading("col1", text="DNI")
         self.tree.heading("col2", text="Nombre")
         self.tree.heading("col3", text="Apellido")
         self.tree.heading("col4", text="Estilo")
-        self.tree.heading("col5", text="Distancia")
+        self.tree.heading("col5", text="Metros")
         self.tree.heading("col6", text="Tiempo")
 
         self.tree.grid(row=11, padx=10, column=0, columnspan=4, sticky=W)
@@ -142,7 +147,7 @@ class Ventana:
         self.root.rowconfigure(12, weight=1, minsize=1)
         self.root.rowconfigure(15, weight=1, minsize=10)
 
-        self.tree.bind("<<TreeviewSelect>>", lambda event: self.objeto_treeview.seleccion_en_tree(event, self.tree, self.entry_dni, self.entry_nombre, self.entry_apellido, self.entry_tiempo))
+        self.tree.bind("<<TreeviewSelect>>", lambda event: self.objeto_treeview.seleccion_en_tree(event, self.tree, self.entry_dni, self.entry_nombre, self.entry_apellido, self.combo_estilos, self.combo_distancias, self.entry_tiempo))
 
         # SCROLL BAR
         scrollbar = ttk.Scrollbar(self.root, orient='vertical', command=self.tree.yview)
@@ -151,14 +156,20 @@ class Ventana:
         #scrollbar.config(command=lambda *args: self.objeto_treeview.scroll_vertical(self.tree, *args))
 
         # FUNCIONES AUXILIARES
-        def limpiar(dni_value, nombre_value, tiempo_value, apellido_value, entry_dni, tree):
+        def limpiar(dni_value, nombre_value, apellido_value, tiempo_value, entry_dni, tree):
             entry_dni.configure(state='normal')
             dni_value.set("")
             self.add_placeholder(self.entry_dni, self.placeholders["dni"])
+
             nombre_value.set("")
             self.add_placeholder(self.entry_nombre, self.placeholders["nombre"])
+
             apellido_value.set("")
             self.add_placeholder(self.entry_apellido, self.placeholders["apellido"])
+
+            self.combo_estilos.set(self.estilo_default)
+            self.combo_distancias.set(self.distancias_default)
+
             tiempo_value.set("")
             self.add_placeholder(self.entry_tiempo, self.placeholders["tiempo"])
 
@@ -166,6 +177,9 @@ class Ventana:
             retorno = self.objeto_nadador.alta(
                 self.dni_value.get(),
                 self.nombre_value.get(),
+                self.apellido_value.get(),
+                self.estilo_value.get(),
+                self.distancia_value.get(),
                 self.tiempo_value.get(),
                 self.tree
             )

@@ -17,10 +17,11 @@ class Nadador(Sujeto):
     """**Clase principal contiene diferentes metodos que involucran al Nadador.**"""
     def __init__(self) -> None:
         super().__init__()
-    @log_en_archivo('CRUD.log', "{now}: Alta Decorador de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
-    def alta(self, dni, nombre, tiempo_50_mts, tree):
+    @log_en_archivo('CRUD.log', "{now}: Alta Decorador de: {nombre}, {apellido} con DNI: {dni}, distancia: {distancia} y tiempo de: {tiempo}\n")
+    def alta(self, dni, nombre, apellido, estilo, distancia, tiempo, tree):
         """**Metodo de alta de registro.**\n
-           Permite ingresar datos como DNI, Nombre y Apellido, y el tiempo registrado en pasadas de 50 metros estilo crol en formato MM:SS.\n
+           Permite ingresar datos como DNI, Nombre y Apellido,
+           y el tiempo registrado en pasadas de 50 metros estilo crol en formato MM:SS.\n
            Esta información se almacena en una base de datos SQLite3.\n
            El usuario recibe una notificación de alta exitosa en forma de pop up."""
         db = Database()
@@ -28,7 +29,7 @@ class Nadador(Sujeto):
         dni_str = str(dni)
         if ValidationUtils.validate_dni(dni_str):
             if ValidationUtils.validate_fullname(nombre):
-                if ValidationUtils.validate_tiempo(tiempo_50_mts):
+                if ValidationUtils.validate_tiempo(tiempo):
                     sql = "SELECT dni FROM alumnos WHERE dni=?"
                     nuevo_dni = (dni,)
                     db.conexion()
@@ -36,12 +37,12 @@ class Nadador(Sujeto):
                     datos = cursor.execute(sql, nuevo_dni)
                     resultado = datos.fetchall()
                     if  resultado == []:
-                        data=(dni, nombre, tiempo_50_mts)
-                        sql="INSERT INTO alumnos(dni, nombre, tiempo_50_mts) VALUES(?, ?, ?)"
+                        data=(dni, nombre, apellido, estilo, distancia, tiempo)
+                        sql="INSERT INTO alumnos(dni, nombre, apellido, estilo, distancia, tiempo) VALUES(?, ?, ?, ?, ?, ?)"
                         cursor.execute(sql, data)
                         db.con.commit()
-                        self.notificar('alta', dni, nombre, tiempo_50_mts)
-                        alta_server_log(dni, nombre, tiempo_50_mts)
+                        self.notificar('alta', dni, nombre, tiempo)
+                        alta_server_log(dni, nombre, tiempo)
                         self.objeto_treeview.actualizar_treeview(tree)
                         messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
                         db.con.close
@@ -59,8 +60,8 @@ class Nadador(Sujeto):
             messagebox.showerror("Error DNI", "Ingrese un DNI valido.\nEjemplo: 30123456).")
             return 1
 
-    @log_en_archivo('CRUD.log', "{now}: Baja Decorador de: {nombre}, con DNI: {dni} y tiempo de: {tiempo_50_mts}\n")
-    def borrar(self, dni, nombre, tiempo_50_mts, tree):
+    @log_en_archivo('CRUD.log', "{now}: Baja Decorador de: {nombre}, con DNI: {dni} y tiempo de: {tiempo}\n")
+    def borrar(self, dni, nombre, tiempo, tree):
         """**Metodo para borrar un registro.**\n
             El usuario puede eliminar registros de la base de datos, habiendo seleccionando una entrada previa.\n
             Para evitar errores humanos, una validación en forma de pop up se presenta al usuario
@@ -79,33 +80,33 @@ class Nadador(Sujeto):
             sql = "DELETE FROM alumnos WHERE id = ?;"
             cursor.execute(sql, data)
             db.con.commit()
-            self.notificar('baja', dni, nombre, tiempo_50_mts)
+            self.notificar('baja', dni, nombre, tiempo)
             borrar_server_log(dni, nombre)
             tree.delete(valor)
             db.con.close()
 
-    @log_en_archivo('CRUD.log', "{now}: Modificacion Decorador de: {nombre}, con DNI: {dni} y nuevo tiempo: {tiempo_50_mts}\n")
-    def modificar(self,dni, nombre, tiempo_50_mts, tree):
+    @log_en_archivo('CRUD.log', "{now}: Modificacion Decorador de: {nombre}, con DNI: {dni} y nuevo tiempo: {tiempo}\n")
+    def modificar(self,dni, nombre, tiempo, tree):
         """**Metodo para modificar un registro**.\n
         Para evitar errores humanos, una validación en forma de pop up se presenta al usuario"""
         self.objeto_treeview = Treeview()
         db = Database()
-        if ValidationUtils.validate_tiempo(tiempo_50_mts):
+        if ValidationUtils.validate_tiempo(tiempo):
             valor = tree.selection()
             item = tree.item(valor)
             mi_id = item['text']
             data_alumno = item['values']
             alumno = data_alumno[1]
-            data = (dni, nombre, tiempo_50_mts,mi_id)
+            data = (dni, nombre, tiempo,mi_id)
             respuesta = messagebox.askokcancel("Modificar", f"Esta seguro que desea modificar al alumno: {alumno}")
             if respuesta == True:
                 db.conexion()
                 cursor=db.con.cursor()
-                sql="UPDATE alumnos SET dni=?, nombre=?, tiempo_50_mts=? WHERE id=?;"
+                sql="UPDATE alumnos SET dni=?, nombre=?, tiempo=? WHERE id=?;"
                 cursor.execute(sql, data)
                 db.con.commit()
-                self.notificar('modificar', dni, nombre, tiempo_50_mts)
-                modificar_server_log(dni, nombre, tiempo_50_mts)
+                self.notificar('modificar', dni, nombre, tiempo)
+                modificar_server_log(dni, nombre, tiempo)
                 db.con.close()
                 self.objeto_treeview.actualizar_treeview(tree)
                 return "Modificado"
@@ -122,7 +123,7 @@ class Nadador(Sujeto):
             mitreview.delete(element)
         sql="""SELECT *
                 FROM alumnos
-                WHERE tiempo_50_mts = (SELECT MIN(tiempo_50_mts) FROM alumnos)"""
+                WHERE tiempo = (SELECT MIN(tiempo) FROM alumnos)"""
         #con=conexion()
         db.conexion()
         cursor = db.con.cursor()
@@ -148,12 +149,13 @@ class Treeview:
         cursor=db.con.cursor()
         datos=cursor.execute(sql)
         resultado = datos.fetchall()
+        print(resultado)
         db.close()
         for fila in resultado:
-            mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
+            mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]))
 
 
-    def seleccion_en_tree(self, event, tree, entry_dni, entry_nombre, entry_apellido, entry_tiempo):
+    def seleccion_en_tree(self, event, tree, entry_dni, entry_nombre, entry_apellido,combo_estilos, combo_distancias, entry_tiempo):
         """**Metodo para seleccionar filas en la grilla.**"""
         fila_seleccionada = tree.focus()
         valores = tree.item(fila_seleccionada, 'values')
@@ -166,13 +168,16 @@ class Treeview:
         entry_dni.delete(0, END)
         entry_nombre.delete(0, END)
         entry_apellido.delete(0, END)
+        #combo_estilos.set(self)
+        #combo_distancias.set(self)
         entry_tiempo.delete(0, END)
         if valores:
             entry_dni.insert(0, valores[0])
             entry_nombre.insert(0, valores[1])
-            #entry_apellido.insert(0, valores[2])
-            #entry_estilo.insert(0, valores[2])
-            entry_tiempo.insert(0, valores[2])
+            entry_apellido.insert(0, valores[2])
+            combo_estilos.set(valores[3])
+            combo_distancias.set(valores[4])
+            entry_tiempo.insert(0, valores[5])
             entry_dni.configure(state='disabled')
 
 
