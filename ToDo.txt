@@ -1,6 +1,6 @@
-- Separar tiempo de metros, para agregar 100mts y 200mts. Esto puede ser un drop-down.
+DONE - Separar tiempo de metros, para agregar 100mts y 200mts. Esto puede ser un drop-down.
 
-- Agregar seleccionar estilos, mariposa, espalda, pecho, crol.
+DONE - Agregar seleccionar estilos, mariposa, espalda, pecho, crol.
 
 - Repensar la base de datos para los datos nuevo: Alumnos, metros, tiempo y estilos.
 

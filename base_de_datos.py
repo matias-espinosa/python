@@ -26,7 +26,10 @@ class Database:
                               (id INTEGER PRIMARY KEY AUTOINCREMENT,
                               dni INTEGER NOT NULL,
                               nombre TEXT NOT NULL,
-                              tiempo_50_mts TEXT NOT NULL)""")
+                              apellido TEXT NOT NULL,
+                              estilo TEXT NOT NULL,
+                              distancia INTEGER NOT NULL,
+                              tiempo TEXT NOT NULL)""")
             print("Tabla 'alumnos' creada.")
         except sqlite3.Error as e:
             print("Error creando tabla:", e)

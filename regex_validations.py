@@ -9,10 +9,10 @@ class ValidationUtils():
         return bool(re.match(regex_dni, dni_str))
 
     @staticmethod
-    def validate_tiempo(tiempo_50_mts):
+    def validate_tiempo(tiempo):
         """**Metodo que valida el campo Tiempo**"""
         regex_tiempo = r'([0-9]{2}):([0-5][0-9])$'
-        return bool(re.match(regex_tiempo, tiempo_50_mts))
+        return bool(re.match(regex_tiempo, tiempo))
     @staticmethod
     def validate_fullname(nombre):
         """**Metodo que valida el nombre completo**"""
