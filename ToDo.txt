@@ -2,10 +2,10 @@ DONE - Separar tiempo de metros, para agregar 100mts y 200mts. Esto puede ser un
 
 DONE - Agregar seleccionar estilos, mariposa, espalda, pecho, crol.
 
-- Repensar la base de datos para los datos nuevo: Alumnos, metros, tiempo y estilos.
+DONE - Repensar la base de datos para los datos nuevo: Alumnos, metros, tiempo y estilos.
 
-- Repensar el treeview para mostrar los nuevos datos.
+DONE - Repensar el treeview para mostrar los nuevos datos.
 
-- Corregir el botón de mejor de mejor tiempo, tiene que filtrar usando estilo y metros.
+- Repensar mejor tiempo, tiene que filtrar usando estilo y metros.
 
 - Agregar buscador y filtro por nombre.
