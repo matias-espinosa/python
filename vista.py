@@ -91,9 +91,12 @@ class Ventana:
 
         self.combo_distancias = ttk.Combobox(self.root, textvariable=self.distancia_value, values=self.distancias, width=10, state="readonly")
         self.combo_distancias.grid(row=5, column=2, padx=5,pady=3, sticky=E)
+        self.reset_dropdowns()
+        #self.combo_estilos.set(self.estilo_default)
+        #self.combo_distancias.set(self.distancias_default)
 
-        self.combo_estilos.set(self.estilo_default)
-        self.combo_distancias.set(self.distancias_default)
+
+
 
         # FOCUS
         self.entry_dni.bind("<FocusIn>", lambda event: self.on_focus_in(event, self.placeholders["dni"]))
@@ -108,11 +111,11 @@ class Ventana:
         self.entry_tiempo.bind("<FocusIn>", lambda event: self.on_focus_in(event, self.placeholders["tiempo"]))
         self.entry_tiempo.bind("<FocusOut>", lambda event: self.on_focus_out(event, self.placeholders["tiempo"]))
 
-        self.combo_estilos.bind("<FocusIn>", self.on_focus_in)
-        self.combo_estilos.bind("<FocusOut>", self.on_focus_out)
+        #self.combo_estilos.bind("<FocusIn>", self.on_focus_in)
+        #self.combo_estilos.bind("<FocusOut>", self.on_focus_out)
 
-        self.combo_distancias.bind("<FocusIn>", self.on_focus_in)
-        self.combo_distancias.bind("<FocusOut>", self.on_focus_out)
+        #self.combo_distancias.bind("<FocusIn>", self.on_focus_in)
+        #self.combo_distancias.bind("<FocusOut>", self.on_focus_out)
 
         # TREEVIEW
         self.tree = ttk.Treeview(self.root, selectmode="browse")
@@ -156,6 +159,8 @@ class Ventana:
         #scrollbar.config(command=lambda *args: self.objeto_treeview.scroll_vertical(self.tree, *args))
 
         # FUNCIONES AUXILIARES
+
+        
         def limpiar(dni_value, nombre_value, apellido_value, tiempo_value, entry_dni, tree):
             entry_dni.configure(state='normal')
             dni_value.set("")
@@ -167,8 +172,9 @@ class Ventana:
             apellido_value.set("")
             self.add_placeholder(self.entry_apellido, self.placeholders["apellido"])
 
-            self.combo_estilos.set(self.estilo_default)
-            self.combo_distancias.set(self.distancias_default)
+            self.reset_dropdowns()
+            #self.combo_estilos.set(self.estilo_default)
+            #self.combo_distancias.set(self.distancias_default)
 
             tiempo_value.set("")
             self.add_placeholder(self.entry_tiempo, self.placeholders["tiempo"])
@@ -187,12 +193,12 @@ class Ventana:
                 limpiar(self.dni_value, self.nombre_value, self.apellido_value, self.tiempo_value, self.entry_dni, self.tree)
 
         def borar_vista():
-            retorno = self.objeto_nadador.borrar(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
+            retorno = self.objeto_nadador.borrar(self.dni_value.get(), self.nombre_value.get(), self.apellido_value.get(), self.estilo_value.get(), self.distancia_value.get(), self.tiempo_value.get(), self.tree)
 
         def modificar_vista():
-            retorno = self.objeto_nadador.modificar(self.dni_value.get(), self.nombre_value.get(), self.tiempo_value.get(), self.tree)
+            retorno = self.objeto_nadador.modificar(self.dni_value.get(), self.nombre_value.get(), self.apellido_value.get(), self.estilo_value.get(), self.distancia_value.get(), self.tiempo_value.get(), self.tree)
             if retorno == "Modificado":
-                limpiar(self.dni_value, self.nombre_value, self.tiempo_value, self.entry_dni, self.tree)
+                limpiar(self.dni_value, self.nombre_value, self.apellido_value, self.tiempo_value, self.entry_dni, self.tree)
 
         # BOTONES: USAN LAS FUNCIONES AUXILIARES
         button_width = 15
@@ -218,7 +224,7 @@ class Ventana:
         boton_borrar = Button( text="Borrar nadador", width=button_width, command=lambda: borar_vista())
         boton_borrar.grid(row=4, pady=3,padx=5, column=3, sticky=W)
 
-        boton_mejor_tiempo = Button(button_frame_bottom, text="Mejor tiempo", width=button_width, command=lambda: self.objeto_nadador.mejor_tiempo(self.tree))
+        boton_mejor_tiempo = Button(button_frame_bottom, text="Mejor tiempo", width=button_width, command=lambda: self.objeto_nadador.mejor_tiempo(self.tree, self.reset_dropdowns))
         boton_mejor_tiempo.grid(row=13, column=2, pady= (4,15), padx=12)
 
         boton_consulta = Button(button_frame_bottom, text="Listar tiempos", width=button_width, command=lambda: self.objeto_treeview.actualizar_treeview(self.tree))
@@ -236,6 +242,11 @@ class Ventana:
     def add_placeholder(self, entry, placeholder):
         entry.insert(0, placeholder)
         entry.config(fg=self.placeholder_color)
+
+ #####NO SE ESTA USANDO
+    def remove_placeholder(self, entry, placeholder):
+        entry.insert(0, placeholder)
+        entry.confi(fg=self)
 
     def on_focus_in(self, event, placeholder=None):
         widget = event.widget
@@ -257,3 +268,11 @@ class Ventana:
                 widget.set(self.estilo_default)
             else:
                 widget.set(self.distancias_default)
+
+    def reset_dropdowns(self):
+        self.combo_estilos.set(self.estilo_default)
+        self.combo_distancias.set(self.distancias_default)
+
+    def mejor_tiempo(self):
+        """Call the model's method and pass the reset_dropdowns callback."""
+        self.objeto_nadador.mejor_tiempo(self.tree, self.reset_dropdowns)

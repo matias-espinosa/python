@@ -30,7 +30,7 @@ class ModificacionRegistro(Observador):
 
     def update(self, tipo_notificacion, *args):
         if tipo_notificacion == 'modificar':
-            dni, nombre, tiempo = args
+            dni, nombre, apellido, estilo, distancia, tiempo = args
             print(f"El registro ha sido modificado Observador: {nombre}, DNI: {dni}, tiempo de 50 metros crol: {tiempo}")
 
 class BajaRegistro(Observador):
@@ -40,5 +40,5 @@ class BajaRegistro(Observador):
 
     def update(self, tipo_notificacion, *args):
         if tipo_notificacion == 'baja':
-            dni, nombre, tiempo = args
+            dni, nombre, apellido, estilo, distancia, tiempo = args
             print(f"El registro ha sido eliminado Observador: {nombre}, DNI: {dni}")
