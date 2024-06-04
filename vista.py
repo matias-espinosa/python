@@ -119,10 +119,10 @@ class Ventana:
 
         # TREEVIEW
         self.tree = ttk.Treeview(self.root, selectmode="browse")
-        self.root.geometry("427x600")
+        self.root.geometry("435x600")
 
         self.tree["columns"] = ("col1", "col2", "col3", "col4", "col5", "col6")
-        self.tree.column("#0", width=28, minwidth=28, anchor=W)
+        self.tree.column("#0", width=38, minwidth=38, anchor=W)
         self.tree.column("col1", width=56, minwidth=56)
         self.tree.column("col2", width=73, minwidth=73)
         self.tree.column("col3", width=73, minwidth=73)
