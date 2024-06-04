@@ -27,41 +27,45 @@ class Nadador(Sujeto):
         db = Database()
         self.objeto_treeview = Treeview()
         dni_str = str(dni)
-        if ValidationUtils.validate_dni(dni_str):
-            if ValidationUtils.validate_fullname(nombre):
-                if ValidationUtils.validate_tiempo(tiempo):
-                    sql = "SELECT dni FROM alumnos WHERE dni=?"
-                    nuevo_dni = (dni,)
-                    db.conexion()
-                    cursor = db.con.cursor()
-                    datos = cursor.execute(sql, nuevo_dni)
-                    resultado = datos.fetchall()
-                    if  resultado == []:
-                        data=(dni, nombre, apellido, estilo, distancia, tiempo)
-                        sql="INSERT INTO alumnos(dni, nombre, apellido, estilo, distancia, tiempo) VALUES(?, ?, ?, ?, ?, ?)"
-                        cursor.execute(sql, data)
-                        db.con.commit()
-                        self.notificar('alta', dni, nombre, tiempo)
-                        alta_server_log(dni, nombre, tiempo)
-                        self.objeto_treeview.actualizar_treeview(tree)
-                        messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} fue dado de alta!')
-                        db.con.close
-                        return "Alta"
+        if ValidationUtils.validar_dni(dni_str):
+            if ValidationUtils.validar_nombre(nombre):
+                if ValidationUtils.validar_apellido(apellido):
+                    if ValidationUtils.validar_tiempo(tiempo):
+                        sql = "SELECT dni FROM alumnos WHERE dni=?"
+                        nuevo_dni = (dni,)
+                        db.conexion()
+                        cursor = db.con.cursor()
+                        datos = cursor.execute(sql, nuevo_dni)
+                        resultado = datos.fetchall()
+                        if  resultado == []:
+                            data=(dni, nombre, apellido, estilo, distancia, tiempo)
+                            sql="INSERT INTO alumnos(dni, nombre, apellido, estilo, distancia, tiempo) VALUES(?, ?, ?, ?, ?, ?)"
+                            cursor.execute(sql, data)
+                            db.con.commit()
+                            self.notificar('alta', dni, nombre, tiempo)
+                            alta_server_log(dni, nombre, tiempo)
+                            self.objeto_treeview.actualizar_treeview(tree)
+                            messagebox.showinfo("Alta exitosa!", f'El tiempo de {nombre} {apellido} fue dado de alta!')
+                            db.con.close
+                            return "Alta"
+                        else:
+                            messagebox.showinfo("DNI duplicado", f'El DNI: {dni} ya se encuentra en la base de datos.\n\nModifique el tiempo o nombre del alumno existente.')
+                            return 1
                     else:
-                        messagebox.showinfo("DNI duplicado", f'El DNI: {dni} ya se encuentra en la base de datos.\n\nModifique el tiempo o nombre del alumno existente.')
+                        messagebox.showerror("Error en tiempo'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
                         return 1
                 else:
-                    messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
+                    messagebox.showerror("Error en 'Apellido'", f'Ingrese un apellido valido.\nLetras, no numeros. Se aceptan tildes, guiones y apóstrofes')
                     return 1
             else:
-                messagebox.showerror("Error en 'Nombre y Apellido'", f'Ingrese un nombre y apellido validos.\nSolo se admiten letras (con o sin tilde), con el formato Nombre espacio Apellido.\nEjemplo: Juan Pérez')
+                messagebox.showerror("Error en 'Nombre'", f'Ingrese un nombre valido.\nLetras, no numeros. Se aceptan tildes, guiones y apóstrofes')
                 return 1
         else:
             messagebox.showerror("Error DNI", "Ingrese un DNI valido.\nEjemplo: 30123456).")
             return 1
 
-    @log_en_archivo('CRUD.log', "{now}: Baja Decorador de: {nombre}, con DNI: {dni} y tiempo de: {tiempo}\n")
-    def borrar(self, dni, nombre, tiempo, tree):
+    @log_en_archivo('CRUD.log', "{now}: Baja Decorador de: {nombre}, {apellido} con DNI: {dni}, distancia: {distancia} y tiempo de: {tiempo}\n")
+    def borrar(self,dni, nombre, apellido, estilo, distancia, tiempo, tree):
         """**Metodo para borrar un registro.**\n
             El usuario puede eliminar registros de la base de datos, habiendo seleccionando una entrada previa.\n
             Para evitar errores humanos, una validación en forma de pop up se presenta al usuario
@@ -80,41 +84,56 @@ class Nadador(Sujeto):
             sql = "DELETE FROM alumnos WHERE id = ?;"
             cursor.execute(sql, data)
             db.con.commit()
-            self.notificar('baja', dni, nombre, tiempo)
+            self.notificar('baja', dni, nombre, apellido, estilo, distancia, tiempo)
             borrar_server_log(dni, nombre)
             tree.delete(valor)
             db.con.close()
 
-    @log_en_archivo('CRUD.log', "{now}: Modificacion Decorador de: {nombre}, con DNI: {dni} y nuevo tiempo: {tiempo}\n")
-    def modificar(self,dni, nombre, tiempo, tree):
+    @log_en_archivo('CRUD.log', "{now}: Modificacion Decorador de: {nombre}, {apellido} con DNI: {dni}, estilo {estilo}, distancia: {distancia} y tiempo de: {tiempo}\n")
+    def modificar(self,dni, nombre, apellido, estilo, distancia, tiempo, tree):
         """**Metodo para modificar un registro**.\n
         Para evitar errores humanos, una validación en forma de pop up se presenta al usuario"""
         self.objeto_treeview = Treeview()
         db = Database()
-        if ValidationUtils.validate_tiempo(tiempo):
-            valor = tree.selection()
-            item = tree.item(valor)
-            mi_id = item['text']
-            data_alumno = item['values']
-            alumno = data_alumno[1]
-            data = (dni, nombre, tiempo,mi_id)
-            respuesta = messagebox.askokcancel("Modificar", f"Esta seguro que desea modificar al alumno: {alumno}")
-            if respuesta == True:
-                db.conexion()
-                cursor=db.con.cursor()
-                sql="UPDATE alumnos SET dni=?, nombre=?, tiempo=? WHERE id=?;"
-                cursor.execute(sql, data)
-                db.con.commit()
-                self.notificar('modificar', dni, nombre, tiempo)
-                modificar_server_log(dni, nombre, tiempo)
-                db.con.close()
-                self.objeto_treeview.actualizar_treeview(tree)
-                return "Modificado"
+        if ValidationUtils.validar_nombre(nombre):
+            if ValidationUtils.validar_apellido(apellido):
+                if ValidationUtils.validar_tiempo(tiempo):
+                    valor = tree.selection()
+                    item = tree.item(valor)
+                    mi_id = item['text']
+                    data_alumno = item['values']
+                    alumno = data_alumno[1]
+                    data = (dni, nombre, apellido, estilo, distancia, tiempo, mi_id)
+                    respuesta = messagebox.askokcancel("Modificar", f"Esta seguro que desea modificar al alumno: {alumno}")
+                    if respuesta == True:
+                        db.conexion()
+                        cursor=db.con.cursor()
+                        sql="UPDATE alumnos SET dni=?, nombre=?, apellido=?, estilo=?, distancia=?, tiempo=? WHERE id=?;"
+                        cursor.execute(sql, data)
+                        db.con.commit()
+                        self.notificar('modificar', dni, nombre, apellido, estilo, distancia, tiempo)
+                        modificar_server_log(dni, nombre, tiempo)
+                        db.con.close()
+                        self.objeto_treeview.actualizar_treeview(tree)
+                        return "Modificado"
+                else:
+                    messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
+                    return 1
+            else:
+                messagebox.showerror("Error en 'Apellido'", f'Ingrese un apellido valido.\nLetras, no numeros. Se aceptan tildes, guiones y apóstrofes')
+                return 1
         else:
-            messagebox.showerror("Error en '50 metros crol'", f'El tiempo no esta expresado correctamente.\nUse el formato MM:SS')
+            messagebox.showerror("Error en 'Nombre'", f'Ingrese un nombre valido.\nLetras, no numeros. Se aceptan tildes, guiones y apóstrofes')
             return 1
 
-    def mejor_tiempo(self, mitreview):
+
+
+
+
+
+
+
+    def mejor_tiempo(self, mitreview, reset_callback):
         """**Metodo que nos permite encontrar y mostrar el mejor tiempo registrado.**\n
         Si hubiera multiples alumnos con el mismo mejor tiempo, entonces se mostraran todos los que compartan dicha categoría."""
         db = Database()
@@ -131,7 +150,8 @@ class Nadador(Sujeto):
         resultado = datos.fetchall()
         db.close()
         for fila in resultado:
-            mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
+            mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]))
+        reset_callback()
 
 class Treeview:
     """**Clase que interactua con el Treeview**\n
@@ -179,6 +199,7 @@ class Treeview:
             combo_distancias.set(valores[4])
             entry_tiempo.insert(0, valores[5])
             entry_dni.configure(state='disabled')
+
 
 
     def scroll_vertical(tree,*args):

@@ -62,3 +62,38 @@
 2024-06-02 21:44:22.146240: Modificacion Decorador de: Aristobulito, con DNI: 99876333 y nuevo tiempo: 01:00
 2024-06-02 21:44:37.373168: Baja Decorador de: Aristobulito, con DNI: 99876333 y tiempo de: 01:00
 2024-06-02 21:54:42.906585: Baja Decorador de: qwd, con DNI: 31224222 y tiempo de: 12:22
+2024-06-02 22:06:57.846274: Alta Decorador de: Ramon, Falcon con DNI: 31334556, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:10:14.128824: Modificacion Decorador de: Ramonw, con DNI: 31334556 y nuevo tiempo: 33:33
+2024-06-02 22:18:54.440044: Modificacion Decorador de: Ramonws, con DNI: 31334556 y nuevo tiempo: 33:33
+2024-06-02 22:30:50.228020: Modificacion Decorador de: Ramon, Falcon con DNI: 31334556, estilo Espalda, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:32:20.269760: Modificacion Decorador de: Ramon, Falcon con DNI: 31334556, estilo Espalda, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:34:46.693968: Modificacion Decorador de: Ramon, Falcon con DNI: 31334556, estilo Espalda, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:36:33.440003: Modificacion Decorador de: Ramont, Falcon con DNI: 31334556, estilo Espalda, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:36:41.108035: Modificacion Decorador de: Ramont, Falcon con DNI: 31334556, estilo Espalda, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:38:39.799372: Modificacion Decorador de: Ramon, Falcon con DNI: 31334556, estilo Espalda, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:40:47.217128: Modificacion Decorador de: Ramonweef, Falcon con DNI: 31334556, estilo Espalda, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:40:57.217740: Modificacion Decorador de: Ramon, Falcon con DNI: 31334556, estilo Espalda, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:48:41.378894: Baja Decorador de: Ramon, Falcon con DNI: 31334556, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:49:17.957896: Alta Decorador de: Raul, Perez con DNI: 31223776, distancia: 1000 y tiempo de: 12:12
+2024-06-02 22:49:48.251959: Alta Decorador de: Ramon, Gomez con DNI: 88777365, distancia: 1000 y tiempo de: 33:33
+2024-06-02 22:52:00.517559: Modificacion Decorador de: Ramon, Gomez con DNI: 88777365, estilo Pecho, distancia: 2000 y tiempo de: 33:33
+2024-06-02 22:52:14.637677: Modificacion Decorador de: Ramon, Gomez con DNI: 88777365, estilo Pecho, distancia: 50 y tiempo de: 33:33
+2024-06-03 09:17:47.768207: Modificacion Decorador de: Raul Juan, Perez con DNI: 31223776, estilo Espalda, distancia: 1000 y tiempo de: 12:12
+2024-06-03 18:29:05.890756: Modificacion Decorador de: Raul Juand, Perez con DNI: 31223776, estilo Espalda, distancia: 1000 y tiempo de: 12:12
+2024-06-03 18:29:15.426955: Modificacion Decorador de: Raul Juan, Perez con DNI: 31223776, estilo Espalda, distancia: 1000 y tiempo de: 12:12
+2024-06-03 19:43:07.120260: Alta Decorador de: Carlos, Perez con DNI: 4455, distancia: 500 y tiempo de: 12:12
+2024-06-03 19:43:21.023946: Alta Decorador de: 1, Perez con DNI: 33445677, distancia: 500 y tiempo de: 12:12
+2024-06-03 19:44:41.161097: Alta Decorador de: wdq, 1 con DNI: 33445677, distancia: 500 y tiempo de: 12:12
+2024-06-03 19:45:02.874349: Alta Decorador de: wdq, wdq con DNI: 33445677, distancia: 500 y tiempo de: 12:1
+2024-06-03 19:45:24.760989: Alta Decorador de: wdq, wdq con DNI: 33445677, distancia: 500 y tiempo de: 12:1
+2024-06-03 19:46:21.128991: Alta Decorador de: qwd, qwd con DNI: 23888777, distancia: Distancia y tiempo de: 12:12
+2024-06-03 23:31:50.560323: Alta Decorador de: Raul Juan, Perez con DNI: 31223776, distancia: 1000 y tiempo de: 12:12
+2024-06-03 23:32:02.646985: Modificacion Decorador de: Raul Juan, Perez con DNI: 31223776, estilo Espalda, distancia: 1000 y tiempo de: 12:11
+2024-06-03 23:32:59.482379: Modificacion Decorador de: Raul Juan, Perez1 con DNI: 31223776, estilo Espalda, distancia: 1000 y tiempo de: 12:11
+2024-06-03 23:33:19.321807: Modificacion Decorador de: Raul Juan12, Perez con DNI: 31223776, estilo Espalda, distancia: 1000 y tiempo de: 12:12
+2024-06-03 23:33:26.170750: Modificacion Decorador de: Raul Juan, Perez con DNI: 31223776, estilo Espalda, distancia: 1000 y tiempo de: 12:12
+2024-06-03 23:34:00.630881: Modificacion Decorador de: qwd, qwd con DNI: 23888777, estilo Estilo, distancia: Distancia y tiempo de: 12:12
+2024-06-03 23:37:45.120810: Modificacion Decorador de: qwd2, qwd con DNI: 23888777, estilo Estilo, distancia: Distancia y tiempo de: 12:12
+2024-06-03 23:37:54.053077: Modificacion Decorador de: qwd, qwd43 con DNI: 23888777, estilo Estilo, distancia: Distancia y tiempo de: 12:12
+2024-06-03 23:38:01.983127: Modificacion Decorador de: qwd, qwd con DNI: 23888777, estilo Estilo, distancia: Distancia y tiempo de: 12:1
+2024-06-03 23:38:05.963726: Baja Decorador de: qwd, qwd con DNI: 23888777, distancia: Distancia y tiempo de: 12:1
