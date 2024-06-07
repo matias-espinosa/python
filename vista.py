@@ -160,7 +160,20 @@ class Ventana:
 
         # FUNCIONES AUXILIARES
 
-        
+        def buscar_vista():
+            retorno = self.objeto_nadador.buscar_nadador(
+                self.dni_value.get(),
+                self.nombre_value.get(),
+                self.apellido_value.get(),
+                self.estilo_value.get(),
+                self.distancia_value.get(),
+                self.tiempo_value.get(),
+                self.tree
+            )
+            print (retorno)
+            if retorno == "buscar":
+                limpiar(self.dni_value, self.nombre_value, self.apellido_value, self.tiempo_value, self.entry_dni, self.tree)
+
         def limpiar(dni_value, nombre_value, apellido_value, tiempo_value, entry_dni, tree):
             entry_dni.configure(state='normal')
             dni_value.set("")
@@ -223,6 +236,9 @@ class Ventana:
 
         boton_borrar = Button( text="Borrar nadador", width=button_width, command=lambda: borar_vista())
         boton_borrar.grid(row=4, pady=3,padx=5, column=3, sticky=W)
+
+        boton_buscar = Button( text="Buscar", width=button_width, command=lambda: buscar_vista())
+        boton_buscar.grid(row=5, pady=3,padx=5, column=3, sticky=W)
 
         boton_mejor_tiempo = Button(button_frame_bottom, text="Mejor tiempo", width=button_width, command=lambda: self.objeto_nadador.mejor_tiempo(self.tree, self.reset_dropdowns))
         boton_mejor_tiempo.grid(row=13, column=2, pady= (4,15), padx=12)

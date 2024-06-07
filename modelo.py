@@ -109,6 +109,7 @@ class Nadador(Sujeto):
                         db.conexion()
                         cursor=db.con.cursor()
                         sql="UPDATE alumnos SET dni=?, nombre=?, apellido=?, estilo=?, distancia=?, tiempo=? WHERE id=?;"
+                        print(sql)
                         cursor.execute(sql, data)
                         db.con.commit()
                         self.notificar('modificar', dni, nombre, apellido, estilo, distancia, tiempo)
@@ -125,13 +126,6 @@ class Nadador(Sujeto):
         else:
             messagebox.showerror("Error en 'Nombre'", f'Ingrese un nombre valido.\nLetras, no numeros. Se aceptan tildes, guiones y apóstrofes')
             return 1
-
-
-
-
-
-
-
 
     def mejor_tiempo(self, mitreview, reset_callback):
         """**Metodo que nos permite encontrar y mostrar el mejor tiempo registrado.**\n
@@ -153,6 +147,58 @@ class Nadador(Sujeto):
             mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]))
         reset_callback()
 
+    def buscar_nadador(self,dni, nombre, apellido, estilo, distancia, tiempo, tree):
+        self.objeto_treeview = Treeview()
+        query = "SELECT * FROM alumnos WHERE 1=1"
+        params = []
+
+        # Check if values are not placeholder or default values
+        if dni and dni != "Números, sin puntos.":
+            query += " AND dni LIKE ?"
+            params.append(f"%{dni}%")
+        if nombre and nombre != "Letras, sin espacios":
+            query += " AND nombre LIKE ?"
+            params.append(f"%{nombre}%")
+        if apellido and apellido != "Letras, sin espacios":
+            query += " AND apellido LIKE ?"
+            params.append(f"%{apellido}%")
+        if estilo and estilo != "Estilo":
+            query += " AND estilo LIKE ?"
+            params.append(f"%{estilo}%")
+        if distancia and distancia != "Distancia":
+            query += " AND distancia LIKE ?"
+            params.append(f"%{distancia}%")
+        if tiempo and tiempo != "MM:SS":
+            query += " AND tiempo LIKE ?"
+            params.append(f"%{tiempo}%")
+
+        # Debugging output
+        print(f"Query: {query}")
+        print(f"Params: {params}")
+        print(params)
+        # Execute query
+        db = Database()
+        db.conexion()
+        cursor = db.con.cursor()
+        print(query)
+        print(params)
+        cursor.execute(query, params)
+        results = cursor.fetchall()
+        print(results)
+        db.close()
+        # Display results (you might want to update a Treeview or other widget)
+        #self.update_treeview(results)
+        #self.objeto_treeview.actualizar_treeview(self)
+        #self.objeto_treeview.actualizar_treeview(self)
+        #for fila in results:
+        #    self.objeto_treeview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]))
+        for item in tree.get_children():
+            tree.delete(item)
+        for row in results:
+            tree.insert("", "end", text=row[0], values=row[1:])
+        return "buscar"
+
+
 class Treeview:
     """**Clase que interactua con el Treeview**\n
          Grilla de datos donde se encuentran los nadadores que estan la Base de Datos"""
@@ -169,7 +215,6 @@ class Treeview:
         cursor=db.con.cursor()
         datos=cursor.execute(sql)
         resultado = datos.fetchall()
-        print(resultado)
         db.close()
         for fila in resultado:
             mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]))
